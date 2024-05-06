@@ -166,6 +166,133 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/06/%E6%96%87%E7%AB%A0%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="武丢丢">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="武丢丢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/06/%E6%96%87%E7%AB%A0%E5%8F%91%E5%B8%83%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">文章发布流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-06 12:01:42 / 修改时间：12:05:08" itemprop="dateCreated datePublished" datetime="2024-05-06T12:01:42+08:00">2024-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p>hexo new 文章名</p>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p>撰写文章，注意<strong>添加tag时要加一个空格再写</strong>，不然会报错</p>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p>保存文章后，<strong>hexo clean</strong>，<strong>hexo g</strong>，<strong>hexo d</strong></p>
+<p>或者先用<strong>hexo s</strong>在本地先查看一下效果</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/06/text2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="武丢丢">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="武丢丢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/06/text2/" class="post-title-link" itemprop="url">torch和cuda兼容问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-06 11:37:48 / 修改时间：12:00:02" itemprop="dateCreated datePublished" datetime="2024-05-06T11:37:48+08:00">2024-05-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="CUDA和torch兼容问题"><a href="#CUDA和torch兼容问题" class="headerlink" title="CUDA和torch兼容问题"></a>CUDA和torch兼容问题</h2><p>安装<strong>迁移学习</strong>的python包时，发现python版本过低（3.8），于是换了一个3.11版本python的环境运行程序发现报错，.cuda()函数报错。</p>
+<p>原因是torch版本和cuda版本不兼容。本来想重新新建一个最新版本python(3.12)的环境省的以后再换，但在新的环境中安装torch时又发现版本不兼容，搜索百度后得知最新的torch也只能支持&lt;&#x3D;3.11的python环境。</p>
+<p>故仍换回3.11版本，在3.11版本中重新安装了和已安装cuda对应的torch版本后程序报错消失。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次发现了多个问题：</p>
+<p>一个是conda安装和pip安装的问题，还没有搞明白。</p>
+<p>一个是安装wheel版本是什么也没有搞明白。</p>
+<p>反正稀里糊涂解决了问题吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/23/text1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -362,9 +489,15 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
