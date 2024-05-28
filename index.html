@@ -166,6 +166,65 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/28/jupyter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="武丢丢">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="武丢丢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/05/28/jupyter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">jupyter环境配置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-28 08:18:57 / 修改时间：08:27:05" itemprop="dateCreated datePublished" datetime="2024-05-28T08:18:57+08:00">2024-05-28</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="添加所有环境至jupyter"><a href="#添加所有环境至jupyter" class="headerlink" title="添加所有环境至jupyter"></a>添加所有环境至jupyter</h2><p><strong>代码如下：</strong><br>1.<code>conda activate my-conda-env</code><br>2.<code>conda install ipykernel</code><br>3.<code>conda deactivate</code><br>4.<code>conda activate base</code><br>5.<code>conda install nb_conda_kernels</code><br>6.<code>jupyter notebook</code><br><strong>这样打开jupyter后，就可以随意切换环境了</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/08/Conda%E5%88%9B%E5%BB%BA%E6%96%B0%E7%8E%AF%E5%A2%83/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -189,10 +248,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-05-08 15:43:39 / 修改时间：16:24:25" itemprop="dateCreated datePublished" datetime="2024-05-08T15:43:39+08:00">2024-05-08</time>
+              <time title="创建时间：2024-05-08 15:43:39" itemprop="dateCreated datePublished" datetime="2024-05-08T15:43:39+08:00">2024-05-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-10 09:47:00" itemprop="dateModified" datetime="2024-05-10T09:47:00+08:00">2024-05-10</time>
+              </span>
 
           
 
@@ -212,6 +277,7 @@
 <p><strong>注意</strong>：安装包时若出现一大行warning，检查校园网是否连接，梯子是否关闭，梯子光直连还不行，要退出才行。</p>
 <h3 id="Conda安装和pip安装区别"><a href="#Conda安装和pip安装区别" class="headerlink" title="Conda安装和pip安装区别"></a>Conda安装和pip安装区别</h3><p>conda安装时，会检查各个包之间的依赖关系，版本是否对应，即conda安装后会保证包能够正常运行，而pip安装则不行，而且有的包用pip安装不了用conda却可以。所以建议<strong>一直使用一种方式安装</strong>。</p>
 <h3 id="安装镜像源设置"><a href="#安装镜像源设置" class="headerlink" title="安装镜像源设置"></a>安装镜像源设置</h3><p>清华大学镜像源：<br><code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</code><br><code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</code><br><code>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/</code><br>显示已添加的源：<br><code>conda config --show channels</code></p>
+<p>添加镜像源：<code>conda config --append channels conda-forge </code></p>
 
       
     </div>
@@ -316,10 +382,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-05-06 11:37:48 / 修改时间：12:00:02" itemprop="dateCreated datePublished" datetime="2024-05-06T11:37:48+08:00">2024-05-06</time>
+              <time title="创建时间：2024-05-06 11:37:48" itemprop="dateCreated datePublished" datetime="2024-05-06T11:37:48+08:00">2024-05-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-28 08:27:30" itemprop="dateModified" datetime="2024-05-28T08:27:30+08:00">2024-05-28</time>
+              </span>
 
           
 
@@ -554,14 +626,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
