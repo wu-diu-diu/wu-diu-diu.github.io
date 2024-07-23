@@ -166,6 +166,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/07/23/dezerobug%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="武丢丢">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="武丢丢">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/07/23/dezerobug%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">dezerobug记录</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-07-23 21:09:48 / 修改时间：21:44:22" itemprop="dateCreated datePublished" datetime="2024-07-23T21:09:48+08:00">2024-07-23</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Dezero-Bug-记录"><a href="#Dezero-Bug-记录" class="headerlink" title="Dezero Bug 记录"></a>Dezero Bug 记录</h1><p>在步骤52的时候，添加cupy库，引起一系列bug。<br>1.<code>UserWarning: Failed to auto-detect cl.exe path: &lt;class &#39;distutils.errors.DistutilsPlatformError&#39;&gt;: No Microsoft Visual C++ version found</code><br>即cupy库需要使用编译器构建C&#x2F;C++扩展模块。在 Windows 系统上，通常使用 Microsoft Visual C++ 编译器（cl.exe）。如果你的系统上没有安装适当版本的 Visual C++，或者 Python 无法找到它的路径，就会出现这种错误。</p>
+<h3 id="解决方法1："><a href="#解决方法1：" class="headerlink" title="解决方法1："></a>解决方法1：</h3><p>安装 VS 2022 时候会顺便下载C++编译器，，并将编译器的位置添加至环境变量，这样即可解决。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40811682/article/details/118033631">解决链接</a>。同时应注意编译器版本和cuda的兼容问题，第一次下载的编译器版本过新，后又下载了一个旧点的版本。同样是上面这个博主的文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40811682/article/details/118033177?spm=1001.2014.3001.5501">链接</a></p>
+<h3 id="解决方法2："><a href="#解决方法2：" class="headerlink" title="解决方法2："></a>解决方法2：</h3><p>安装cupy的预编译版本：<code>pip install cupy-cuda11x</code>，11x是因为我电脑安装的cuda是11.7版本的。<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45792450/article/details/138448774">链接</a>。</p>
+<p><strong>上述方法我两个都试了很多次，但最终还是报错，VS版本不支持之类的。重启电脑后错误消失，所以我也不知道到底哪个方法起效了哈哈</strong></p>
+<h2 id="过程中遇到问题"><a href="#过程中遇到问题" class="headerlink" title="过程中遇到问题"></a>过程中遇到问题</h2><p><strong>1.Anaconda 崩溃</strong>：无法创建环境，一直出错误报告。</p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>重装了一遍，想保留环境的话，将envs文件夹内的环境文件压缩保存，待新装的anaconda装好之后，再解压到envs文件夹中即可。</p>
+<p><strong>2.pycharm无法切换环境</strong>： 新建了环境，无法在pycharm中添加</p>
+<h3 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h3><p>不选择添加conda环境，直接添加系统解释器<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43800449/article/details/134305402">链接</a></p>
+<p><strong>3.conda创建新环境在C盘</strong>：新建一个环境在C盘，导致我下载新的包时候找不到环境</p>
+<h3 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h3><p>修改.condarc文件<a target="_blank" rel="noopener" href="https://blog.csdn.net/QH2107/article/details/126246310">链接</a></p>
+<p><strong>4.系统环境变量Path丢失</strong>：不知道怎么环境变量里的Path路径没了，安装conda，cuda，运行hexo都需要添加环境变量。</p>
+<h3 id="解决方法-3"><a href="#解决方法-3" class="headerlink" title="解决方法"></a>解决方法</h3><p>故新建了一个环境变量Path，参照网上的图片添加了相应的路径，也不知道对不对。<strong>后续出现找不到命令的错误</strong>，多半是因为该命令的exe文件所在的路径没有添加至环境变量当中。</p>
+<p><strong>5.module ‘cupy’ has no attribute ‘scatter_add’</strong><br>上面的问题都解决后，出现了这个小问题，原因是cupy版本过新，已经没有这个方法了</p>
+<h3 id="解决方法-4"><a href="#解决方法-4" class="headerlink" title="解决方法"></a>解决方法</h3><p>在发生错误的位置，import cupyx，再编写cupyx.scatter_add是正确的，即cupyx这个包保留了这个方法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>折腾了一天，终于可以用cupy运行dezero的程序了，也就是步骤52的程序终于成功运行。大功告成！！！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/28/jupyter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -626,14 +699,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
