@@ -341,7 +341,7 @@ git push -u origin main
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-07-26 18:00:34" itemprop="dateModified" datetime="2024-07-26T18:00:34+08:00">2024-07-26</time>
+                <time title="修改时间：2024-08-09 15:14:18" itemprop="dateModified" datetime="2024-08-09T15:14:18+08:00">2024-08-09</time>
               </span>
 
           
@@ -356,7 +356,7 @@ git push -u origin main
 
       
           <h2 id="tensordot使用方法"><a href="#tensordot使用方法" class="headerlink" title="tensordot使用方法"></a>tensordot使用方法</h2><h3 id="主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘"><a href="#主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘" class="headerlink" title="主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘"></a>主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘</h3><p>。<code>numpy.tensordot(a, b, axes=0,1,2)</code>axes&#x3D;1的话，则结果是两个数组以矩阵相乘的形式计算.实际为<strong>a的最后一个维度和b的第一个维度进行点乘</strong></p>
-<p>若a，b是二维数组，此时即为矩阵乘法。numpy中的轴分布如下图：</p>
+<p>若a，b是二维数组，此时即为矩阵乘法。numpy中的轴分布如下图：<br><a target="_blank" rel="noopener" href="https://github.com/wu-diu-diu/wu-diu-diu.github.io/tree/main/images/axis.png"></a></p>
 <p>axis&#x3D;0和axis&#x3D;2的情况参考numpy的<a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.tensordot.html">官方解释</a></p>
 <p>对于多维数组，axis可以指定多个轴进行点乘，例如（3， 4， 5）数组和（5， 4， 2）数组，可以指定第一个数组的1， 2轴和第二个数组的1， 0轴相点乘。代码为：</p>
 <pre><code>np.random.seed(10)
