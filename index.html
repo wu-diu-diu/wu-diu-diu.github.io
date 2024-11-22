@@ -341,7 +341,7 @@ git push -u origin main
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-08-09 15:14:18" itemprop="dateModified" datetime="2024-08-09T15:14:18+08:00">2024-08-09</time>
+                <time title="修改时间：2024-08-09 15:24:30" itemprop="dateModified" datetime="2024-08-09T15:24:30+08:00">2024-08-09</time>
               </span>
 
           
@@ -356,7 +356,7 @@ git push -u origin main
 
       
           <h2 id="tensordot使用方法"><a href="#tensordot使用方法" class="headerlink" title="tensordot使用方法"></a>tensordot使用方法</h2><h3 id="主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘"><a href="#主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘" class="headerlink" title="主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘"></a>主要是对张量进行点乘，对于多维张量来说，有时候需要指定维度进行点乘</h3><p>。<code>numpy.tensordot(a, b, axes=0,1,2)</code>axes&#x3D;1的话，则结果是两个数组以矩阵相乘的形式计算.实际为<strong>a的最后一个维度和b的第一个维度进行点乘</strong></p>
-<p>若a，b是二维数组，此时即为矩阵乘法。numpy中的轴分布如下图：<br><a target="_blank" rel="noopener" href="https://github.com/wu-diu-diu/wu-diu-diu.github.io/tree/main/images/axis.png"></a></p>
+<p>若a，b是二维数组，此时即为矩阵乘法。numpy中的轴分布如下图：</p>
 <p>axis&#x3D;0和axis&#x3D;2的情况参考numpy的<a target="_blank" rel="noopener" href="https://numpy.org/doc/stable/reference/generated/numpy.tensordot.html">官方解释</a></p>
 <p>对于多维数组，axis可以指定多个轴进行点乘，例如（3， 4， 5）数组和（5， 4， 2）数组，可以指定第一个数组的1， 2轴和第二个数组的1， 0轴相点乘。代码为：</p>
 <pre><code>np.random.seed(10)
@@ -489,10 +489,16 @@ array([[181, 142],
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-05-28 08:18:57 / 修改时间：08:27:05" itemprop="dateCreated datePublished" datetime="2024-05-28T08:18:57+08:00">2024-05-28</time>
+              <time title="创建时间：2024-05-28 08:18:57" itemprop="dateCreated datePublished" datetime="2024-05-28T08:18:57+08:00">2024-05-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-22 17:57:54" itemprop="dateModified" datetime="2024-11-22T17:57:54+08:00">2024-11-22</time>
+              </span>
 
           
 
@@ -505,7 +511,8 @@ array([[181, 142],
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="添加所有环境至jupyter"><a href="#添加所有环境至jupyter" class="headerlink" title="添加所有环境至jupyter"></a>添加所有环境至jupyter</h2><p><strong>代码如下：</strong><br>1.<code>conda activate my-conda-env</code><br>2.<code>conda install ipykernel</code><br>3.<code>conda deactivate</code><br>4.<code>conda activate base</code><br>5.<code>conda install nb_conda_kernels</code><br>6.<code>jupyter notebook</code><br><strong>这样打开jupyter后，就可以随意切换环境了</strong></p>
+          <h2 id="添加所有环境至jupyter"><a href="#添加所有环境至jupyter" class="headerlink" title="添加所有环境至jupyter"></a>添加所有环境至jupyter</h2><p><strong>代码如下：</strong><br>1.<code>conda activate my-conda-env</code><br>2.<code>conda install ipykernel</code><br>3.<code>conda deactivate</code><br>4.<code>conda activate base</code><br>5.<code>conda install nb_conda_kernels</code><br>6.<code>jupyter notebook</code></p>
+<p><strong>这样打开jupyter后，就可以随意切换环境了</strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014264373/article/details/119390267">参考链接</a></p>
 
       
     </div>
