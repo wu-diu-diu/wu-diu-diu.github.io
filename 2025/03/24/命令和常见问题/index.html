@@ -1,23 +1,251 @@
-extends includes/layout.pug
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="武丢丢"><meta name="renderer" content="webkit"><meta name="copyright" content="武丢丢"><meta name="keywords" content="武丢丢"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>命令和常见问题 · Mr.Long's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
 
-block content
-  article#post.article-entry
-    != page.content
-  // lincense
-  if(theme.copyright.enable === true && page.copyright !== false)
-    .license-wrapper
-      p 
-        span Author:  
-        a(href=config.url)= config.author
-      p 
-        span Link:  
-        a(href=page.permalink)= page.permalink
-      p 
-        span Copyright:  
-        span!= theme.copyright.license
-  include includes/partial/post-nav.pug
-  #comment
-    include includes/comment/livere.pug
-    include includes/comment/disqus.pug
-    include includes/comment/changyan.pug
-    include includes/comment/gitment.pug
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">longlongyu</div><div class="profile-signature">for me</div><div class="friends"><div>FRIENDS</div><span><a href="//github.com/Longlongyu" target="_black">friendA</a></span><span><a href="//github.com/" target="_black">friendB</a></span><span><a href="//github.com/" target="_black">friendC</a></span></div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Long's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">命令和常见问题</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-03-24</span></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h1><h2 id="连接远程主机"><a href="#连接远程主机" class="headerlink" title="连接远程主机"></a>连接远程主机</h2><ul>
+<li>ssh -p 22 root@host</li>
+<li>其中-p后面是端口号，root是远程主机上的用户名，host是远程主机的ip地址。以组里的服务器为例，则为：<strong>ssh -p 22 <a href="mailto:&#x31;&#x32;&#x33;&#64;&#x31;&#x30;&#x2e;&#x31;&#56;&#x31;&#x2e;&#56;&#51;&#x2e;&#50;&#x36;">&#x31;&#x32;&#x33;&#64;&#x31;&#x30;&#x2e;&#x31;&#56;&#x31;&#x2e;&#56;&#51;&#x2e;&#50;&#x36;</a></strong></li>
+</ul>
+<h1 id="git"><a href="#git" class="headerlink" title="git"></a>git</h1><ul>
+<li>git add .</li>
+<li>git commit -m “first commit”</li>
+<li>git status</li>
+<li>git remote -v 查看所有远端仓库</li>
+<li>git remote add name git@……   添加远端仓库</li>
+<li>git remote remove name 移除远端仓库</li>
+</ul>
+<h1 id="linux"><a href="#linux" class="headerlink" title="linux"></a>linux</h1><ul>
+<li><code>mv /root/path/  /root/path2</code><br>移动第一个路径下的某一个文件至第二个路径  </li>
+<li><code>cd</code>:cd &#x2F;path&#x2F;dic cd .. 上一个目录</li>
+<li><code>ls</code>: ls 查看目录下的文件  ls -l 列出文件详细信息</li>
+<li><code>cat</code>: cat test.txt 终端打印文件内容</li>
+<li><code>cp</code>: cp test1.txt test2.txt  复制文件1的内容到文件2</li>
+<li><code>rm</code>: rm file.txt  删除文件</li>
+<li><code>touch</code>: touch file.txt 创建一个新的文件</li>
+<li><code>pwd</code>: 显示当前位置</li>
+<li><code>mkdir</code>: mkdir file 创建新的目录</li>
+<li><code>rmdir</code>: 删除空的目录</li>
+<li><code>tar</code>: <ul>
+<li>tar -cvf archive.tar &#x2F;path&#x2F;to&#x2F;directory 创建一个名为 archive.tar 的归档文件  </li>
+<li>tar -xvf archive.tar -C &#x2F;path&#x2F;to&#x2F;extract  解压 archive.tar 到指定目录</li>
+</ul>
+</li>
+<li><code>ping</code>: ping google.com 测试网络联通性</li>
+<li><code>ipconfig</code>: 显示所有网络信息的接口</li>
+<li><code>wget</code>: wget 是一个命令行工具，用于从网络上下载文件。它支持 HTTP、HTTPS 和 FTP 协议，并且可以递归下载整个网站。<ul>
+<li><code>wget https://example.com/file.zip</code>下载单个文件</li>
+<li><code>wget -O myfile.zip https://example.com/file.zip</code> 下载文件并保存为指定名称</li>
+</ul>
+</li>
+<li>硬盘挂载：<ul>
+<li><code>sudo umount /path/file</code>:取消挂载在这个文件下的硬盘</li>
+<li><code>mount /dev/sdb  /data</code>:将硬盘sdb挂载在&#x2F;data文件夹下</li>
+<li><code>mount</code>：查看是否挂载成功</li>
+<li><code>vim /etc/fstab</code>:编辑这个文件可以设置系统开机自动挂载</li>
+</ul>
+</li>
+<li>重启：<ul>
+<li><code>reboot</code>:重新启动</li>
+<li><code>shutdown -r now</code>：现在重启</li>
+<li><code>sudo shutdown -r +10</code>:10分钟后重启</li>
+<li><code>sudo shutdown -r 22:00</code>:晚上10点重启</li>
+</ul>
+</li>
+<li>硬盘分区：<ul>
+<li><code>fdisk -l</code>:查看当前所有磁盘的分区情况</li>
+<li><code>lsblk（老师不离开）</code>：查看所有磁盘所有分区的挂载情况</li>
+<li><code>blkid</code>:查看UUID</li>
+</ul>
+</li>
+<li>vim文本编辑：<ul>
+<li>一般要使用<code>sudo</code>，因为一些文件只有root用户能编辑</li>
+<li>进入文件后，首先点<code>insert</code>开始插入模式开始编辑</li>
+<li>编辑完成后点<code>esc</code>退出插入模式，按<code>:wq</code>退出</li>
+</ul>
+</li>
+<li><code>uptime</code>:记录当前时间，从上次系统启动开始系统运行时间， 目前连接的用户数，过去1，5，15分钟系统的平均负载</li>
+<li><code>man</code>:在所有命令加上man，会在终端打开一个手册，展示这个命令的功能和可选参数</li>
+<li><code>lscpu</code>:查看CPU的数量和其他信息</li>
+<li><code>netstat -nat | grep &#39;ESTABLISHED&#39; | grep &#39;:22 &#39; | awk &#39;&#123;print $5&#125;&#39; | cut -d: -f1 | sort | uniq -c</code>:显示当前ssh连接到服务器的用户数及其ip地址</li>
+<li><code>ls -l</code> ：查看当前目录下所有文件的详细信息包括</li>
+<li></li>
+<li></li>
+<li>。权限解释：<code>drwxr-xr-- 2 user group 4096 Jan 1 10:00 myfolder</code>:<ul>
+<li>第一个字符表示文件类型，d表示目录，-表示普通文件，l表示符号链接等。</li>
+<li>接下来的9个字符分为三组，每组三个字符，分别表示所有者、所属组和其他用户的权限。</li>
+<li>每组中的三个字符分别表示读（r）、写（w）和执行（x）权限。如果某个权限没有被授予，则用-表示。</li>
+<li>drwxr-xr–：表示这是一个目录，所有者有读、写和执行权限，所属组有读和执行权限，其他用户只有读权限。</li>
+</ul>
+</li>
+<li><code>chmod -R u+rwx /path/folder</code>:<ul>
+<li>-R：递归地对文件夹及其内部的所有文件和子文件夹应用权限更改</li>
+<li>u：表示用户（所有者）</li>
+<li>+rwx：表示添加读、写和执行权限。</li>
+<li>&#x2F;path&#x2F;to&#x2F;folder：替换为你要设置权限的文件夹的实际路径</li>
+</ul>
+</li>
+<li><code>chown test:test /data</code>:将data文件的所有者和所属组都设置为test</li>
+<li><code>export http_proxy=http://ip:端口</code>:为linux系统设置代理，ip为win的ipv4地址，端口为代理软件的的监听端口一般为7890或者7897,设置好后可以使用<code>curl google.com</code>来检测是否可以访问google，如果返回内容则设置成功。还需要设置<code>export https_proxy=http://192.168.1.2:7890</code></li>
+</ul>
+<h2 id="Authentication-failure"><a href="#Authentication-failure" class="headerlink" title="Authentication failure"></a>Authentication failure</h2><ul>
+<li>刚安装没有设置root密码，运行<code>sudo passwd</code>,设置密码，再运行<code>su</code>即可</li>
+</ul>
+<h1 id="huggingface"><a href="#huggingface" class="headerlink" title="huggingface"></a>huggingface</h1><h2 id="下载模型或者数据"><a href="#下载模型或者数据" class="headerlink" title="下载模型或者数据"></a>下载模型或者数据</h2><ul>
+<li>pip install -U “huggingface_hub[cli]” 下载huggingface_hub</li>
+<li>huggingface-cli login 登录，使用token，在hf界面设置access token</li>
+<li>$env:HF_ENDPOINT &#x3D; “<a target="_blank" rel="noopener" href="https://hf-mirror.com/">https://hf-mirror.com</a>“ 使用国内镜像</li>
+<li>huggingface-cli download –resume-download gpt2 –local-dir gpt2  下载模型</li>
+<li>下载数据集  huggingface-cli download –repo-type dataset –resume-download wikitext –local-dir wikitext</li>
+<li>token存储地址：C:\Users\123.cache\huggingface\stored_tokens</li>
+</ul>
+<h2 id="excalidraw-linux"><a href="#excalidraw-linux" class="headerlink" title="excalidraw(linux)"></a>excalidraw(linux)</h2><ul>
+<li>cd excalidraw  </li>
+<li>yarn </li>
+<li>yarn start</li>
+<li>AI-MO&#x2F;aimo-validation-amc</li>
+</ul>
+<h2 id="python自带虚拟环境-linux"><a href="#python自带虚拟环境-linux" class="headerlink" title="python自带虚拟环境(linux)"></a>python自带虚拟环境(linux)</h2><ul>
+<li>python 创建虚拟环境：<br>  python3 -m venv name</li>
+<li>进入虚拟环境：<br>  source name&#x2F;bin&#x2F;activate</li>
+<li>进入项目文件:<br>  cd &#x2F;path&#x2F;to&#x2F;project</li>
+<li>打开vscode:<br>  code .</li>
+</ul>
+<h1 id="sftp（类似于ssh但命令更简单）"><a href="#sftp（类似于ssh但命令更简单）" class="headerlink" title="sftp（类似于ssh但命令更简单）"></a>sftp（类似于ssh但命令更简单）</h1><h2 id="上传文件到服务器"><a href="#上传文件到服务器" class="headerlink" title="上传文件到服务器"></a>上传文件到服务器</h2><ol>
+<li>连接服务器：<code>sftp root@host</code></li>
+<li>cd远程服务器到指定路径：<code>cd path/to/dict</code></li>
+<li>上传本地路径下的文件到远程服务器：<code>put local\path\doc.exe</code></li>
+</ol>
+<h1 id="kaggle"><a href="#kaggle" class="headerlink" title="kaggle"></a>kaggle</h1><h2 id="使用kaggle-api在本地下载kaggle上的数据，模型等"><a href="#使用kaggle-api在本地下载kaggle上的数据，模型等" class="headerlink" title="使用kaggle api在本地下载kaggle上的数据，模型等"></a>使用kaggle api在本地下载kaggle上的数据，模型等</h2><ol>
+<li>在kaggle上的setting中，创建token，会自动下载一个kaggle.json</li>
+<li>在<code>C/user/name/</code>下创建文件夹<code>.kaggle</code>,将json文件放入其中</li>
+<li>在终端中运行命令：<code>kaggle competitions download -c AI-Mathematical-Olympiad-Progress-Prize-2</code><strong>注意要将赛事名称中间的空格用<code>-</code>代替</strong></li>
+<li>使用命令：<code>tar -xf archive.zip -C target_folder</code>将下载好的zip文件解压到指定文件夹</li>
+</ol>
+<h1 id="open-resume"><a href="#open-resume" class="headerlink" title="open resume"></a>open resume</h1><ul>
+<li>D盘打开project文件夹</li>
+<li>右键打开git</li>
+<li>运行<code>npm run dev</code></li>
+<li>第一次安装：<ul>
+<li><code>cd open-resume</code></li>
+<li><code>npm install</code></li>
+<li><code>npm run dev</code></li>
+</ul>
+</li>
+<li>打开localhost:3000即可</li>
+</ul>
+<h1 id="git连接github失败"><a href="#git连接github失败" class="headerlink" title="git连接github失败"></a>git连接github失败</h1><ul>
+<li>配置Git使用代理</li>
+<li><code>git config --global http.proxy http://127.0.0.1:7897</code></li>
+<li><code>git config --global https.proxy http://127.0.0.1:7897</code></li>
+<li>其中端口号和IP地址可以打开<strong>设置-&gt;网络与Internet-&gt;代理</strong>来得到</li>
+<li>配置完后可以查看是否配置成功<code>git config --global -l</code></li>
+<li>这将列出当前的 Git 配置信息，确保其中的 http.proxy 和 https.proxy 设置为你刚刚配置的端口。</li>
+</ul>
+<h2 id="cmd命令"><a href="#cmd命令" class="headerlink" title="cmd命令"></a>cmd命令</h2><ul>
+<li>msinfo32:可以查看主板信息</li>
+</ul>
+<h2 id="windows代理作用于WSL"><a href="#windows代理作用于WSL" class="headerlink" title="windows代理作用于WSL"></a>windows代理作用于WSL</h2><ul>
+<li>.sh文件已经保存在github，下载下来bash 运行即可，脚本如下:</li>
+<li>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function proxy_on() &#123;</span><br><span class="line">export http_proxy=<span class="string">&quot;http://$(wslip):7890&quot;</span></span><br><span class="line">export https_proxy=$http_proxy</span><br><span class="line">export HTTP_PROXY=$http_proxy</span><br><span class="line">export HTTPS_PROXY=$http_proxy</span><br><span class="line">echo -e <span class="string">&quot;终端代理已开启，windows ip 为 $(wslip)。&quot;</span></span><br><span class="line"><span class="keyword">if</span> curl --silent --head --<span class="built_in">max</span>-time <span class="number">3</span> https://www.google.com/  | grep <span class="string">&quot;HTTP.*200&quot;</span> &gt; /dev/null; then</span><br><span class="line">        echo <span class="string">&quot;Google 连通性正常。&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">        echo <span class="string">&quot;无法连接到 Google。&quot;</span></span><br><span class="line">        unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY</span><br><span class="line">        echo -e <span class="string">&quot;终端代理已关闭。&quot;</span></span><br><span class="line">fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function proxy_off()&#123;</span><br><span class="line">    unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY</span><br><span class="line">    echo -e <span class="string">&quot;终端代理已关闭。&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ -f ~/.bashrc ]; then</span><br><span class="line">    source ~/.bashrc</span><br><span class="line">fi</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="配置Linux使用代理"><a href="#配置Linux使用代理" class="headerlink" title="配置Linux使用代理"></a>配置Linux使用代理</h2><ul>
+<li><code>sudo vim ~/.bashrc</code>  </li>
+<li>在文件的末尾添加函数如下：</li>
+<li>  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">function proxy_on() &#123;</span><br><span class="line">    <span class="comment"># 代理服务器配置</span></span><br><span class="line">    local proxy_server=<span class="string">&quot;192.168.1.2&quot;</span>  <span class="comment"># 代理服务器地址</span></span><br><span class="line">    local proxy_port=<span class="string">&quot;7890&quot;</span>           <span class="comment"># 代理服务器端口</span></span><br><span class="line">    local proxy=<span class="string">&quot;http://$&#123;proxy_server&#125;:$&#123;proxy_port&#125;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置代理环境变量</span></span><br><span class="line">    export http_proxy=$proxy</span><br><span class="line">    export https_proxy=$proxy</span><br><span class="line">    export HTTP_PROXY=$proxy</span><br><span class="line">    export HTTPS_PROXY=$proxy</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 设置无需代理的地址</span></span><br><span class="line">    export no_proxy=<span class="string">&quot;localhost,127.0.0.1/8,::1,192.168.0.0/23,*.local&quot;</span></span><br><span class="line"></span><br><span class="line">    echo -e <span class="string">&quot;终端代理已开启，代理服务器为 $&#123;proxy_server&#125;:$&#123;proxy_port&#125;。&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 检查 Google 连通性</span></span><br><span class="line">    <span class="keyword">if</span> curl --silent --head --<span class="built_in">max</span>-time <span class="number">3</span> https://www.google.com/ | grep <span class="string">&quot;HTTP.*200&quot;</span> &gt; /dev/null; then</span><br><span class="line">        echo <span class="string">&quot;Google 连通性正常。&quot;</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        echo <span class="string">&quot;无法连接到 Google。&quot;</span></span><br><span class="line">        <span class="comment"># 如果无法连接，关闭代理</span></span><br><span class="line">        unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY</span><br><span class="line">        echo -e <span class="string">&quot;终端代理已关闭。&quot;</span></span><br><span class="line">    fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function proxy_off() &#123;</span><br><span class="line">    <span class="comment"># 关闭代理</span></span><br><span class="line">    unset http_proxy HTTP_PROXY https_proxy HTTPS_PROXY</span><br><span class="line">    unset no_proxy</span><br><span class="line">    echo -e <span class="string">&quot;终端代理已关闭。&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://example.com">武丢丢</a></p><p> <span>Link:  </span><a href="http://example.com/2025/03/24/%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">http://example.com/2025/03/24/%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2025/03/31/Linux%E5%AE%89%E8%A3%85comsol/" title="Linux安装comsol"><span>< PreviousPost</span><br><span class="prevTitle">Linux安装comsol</span></a><a class="nextSlogan" href="/2024/08/04/GPT2%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="GPT2环境配置"><span>NextPost ></span><br><span class="nextTitle">GPT2环境配置</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ssh"><span class="toc-number">1.</span> <span class="toc-text">ssh</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA"><span class="toc-number">1.1.</span> <span class="toc-text">连接远程主机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git"><span class="toc-number">2.</span> <span class="toc-text">git</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#linux"><span class="toc-number">3.</span> <span class="toc-text">linux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Authentication-failure"><span class="toc-number">3.1.</span> <span class="toc-text">Authentication failure</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#huggingface"><span class="toc-number">4.</span> <span class="toc-text">huggingface</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E6%A8%A1%E5%9E%8B%E6%88%96%E8%80%85%E6%95%B0%E6%8D%AE"><span class="toc-number">4.1.</span> <span class="toc-text">下载模型或者数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#excalidraw-linux"><span class="toc-number">4.2.</span> <span class="toc-text">excalidraw(linux)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#python%E8%87%AA%E5%B8%A6%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83-linux"><span class="toc-number">4.3.</span> <span class="toc-text">python自带虚拟环境(linux)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#sftp%EF%BC%88%E7%B1%BB%E4%BC%BC%E4%BA%8Essh%E4%BD%86%E5%91%BD%E4%BB%A4%E6%9B%B4%E7%AE%80%E5%8D%95%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">sftp（类似于ssh但命令更简单）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-number">5.1.</span> <span class="toc-text">上传文件到服务器</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#kaggle"><span class="toc-number">6.</span> <span class="toc-text">kaggle</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8kaggle-api%E5%9C%A8%E6%9C%AC%E5%9C%B0%E4%B8%8B%E8%BD%BDkaggle%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E6%A8%A1%E5%9E%8B%E7%AD%89"><span class="toc-number">6.1.</span> <span class="toc-text">使用kaggle api在本地下载kaggle上的数据，模型等</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#open-resume"><span class="toc-number">7.</span> <span class="toc-text">open resume</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git%E8%BF%9E%E6%8E%A5github%E5%A4%B1%E8%B4%A5"><span class="toc-number">8.</span> <span class="toc-text">git连接github失败</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#cmd%E5%91%BD%E4%BB%A4"><span class="toc-number">8.1.</span> <span class="toc-text">cmd命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#windows%E4%BB%A3%E7%90%86%E4%BD%9C%E7%94%A8%E4%BA%8EWSL"><span class="toc-number">8.2.</span> <span class="toc-text">windows代理作用于WSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AELinux%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%90%86"><span class="toc-number">8.3.</span> <span class="toc-text">配置Linux使用代理</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
