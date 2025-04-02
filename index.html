@@ -108,12 +108,12 @@
 下载iso文件首先到IT技术之家下载comsol的iso文件，版本是comsol6.3。下载地址下载好后需要上传到远程linux服务器，可以使用xftp或者ssh，如果你是直接在现场操作的话则不需要上传了，拷贝一下就行。注意如果U盘插入到电脑中但却点不开的话，可能需要先将U盘挂载到某一个文件夹下，这样才能将U盘中的文件取出
 解压rar文件上面下载的压缩包是带密码的，建议使用unrar解压,sudo apt in ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="Linux"> Linux</a></div><div class="read-more"><a class="more" href="/2025/03/31/Linux%E5%AE%89%E8%A3%85comsol/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/03/24/%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">命令和常见问题</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-03-24T09:56:01.000Z">2025-03-24</time></div><div class="recent-post-content">ssh连接远程主机
 ssh -p 22 root@host
-其中-p后面是端口号，root是远程主机上的用户名，host是远程主机的ip地址。以组里的服务器为例，则为：ssh -p 22 &#49;&#x32;&#51;&#64;&#x31;&#48;&#46;&#49;&#x38;&#x31;&#x2e;&#56;&#x33;&#46;&#50;&#54;
+其中-p后面是端口号，root是远程主机上的用户名，host是远程主机的ip地址。以组里的服务器为例，则为：ssh -p 22 &#49;&#x32;&#x33;&#x40;&#x31;&#48;&#46;&#49;&#x38;&#x31;&#46;&#x38;&#51;&#46;&#x32;&#54;
 
 如果连接不上
 检查是否启动：sudo systemctl status sshd如果显示activate，则表明ssh服务已经启动
 启动命令：sudo systemctl start sshd
-设置开机自启动命令:sudo system ...</div><div class="read-more"><a class="more" href="/2025/03/24/%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2024/08/04/GPT2%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">GPT2环境配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2024-08-04T09:28:27.000Z">2024-08-04</time></div><div class="recent-post-content">环境配置记录本地配置方法：去pytorch官网找到要下载的历代版本，比如本次配置版本为
+设置开机自启动命令:sudo syst ...</div><div class="read-more"><a class="more" href="/2025/03/24/%E5%91%BD%E4%BB%A4%E5%92%8C%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2024/08/04/GPT2%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">GPT2环境配置</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2024-08-04T09:28:27.000Z">2024-08-04</time></div><div class="recent-post-content">环境配置记录本地配置方法：去pytorch官网找到要下载的历代版本，比如本次配置版本为
 conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=11.8 -c pytorch -c nvidia
 
 直接使用这个命令即可下载pytoch相关包以及cuda包，此处cuda包的版本不需要非得和电脑上安装的cuda软件版本一致。最后在下载一个cudnn的包即可
