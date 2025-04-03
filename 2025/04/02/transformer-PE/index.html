@@ -97,30 +97,38 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-位置编码</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="transformer之位置编码">Transformer之位置编码</h1>
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-位置编码</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-02</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<h1 id="transformer之位置编码">Transformer之位置编码</h1>
 <h2 id="为什么需要位置编码">为什么需要位置编码</h2>
 注意力计算公式如下图所示：<br />
 
 <div style="text-align: center;">
-<p><style>.jqxctwgarags{width: 40%; height:
-40%;}</style><img src="/2025/04/02/transformer-PE/01.png" class="jqxctwgarags" alt="注意力计算公式"></p>
+<p><style>.toixroohfagn{width: 40%; height:
+40%;}</style><img src="/2025/04/02/transformer-PE/01.png" class="toixroohfagn" alt="注意力计算公式"></p>
 </div>
 <p>其中q和k分别为query和key，代表token的语义信息。如果没有位置编码，那么q和k的计算结果是不受二者之间相对距离大小的影响的。也就是说，如果没有位置编码，那么transformer就是一个类词袋模型。</p>
 <h3 id="词袋模型">词袋模型</h3>
 <p><em>词袋模型：BOW，是一种对文本进行向量化的模型</em><br />
-词袋模型首先会对文本进行分词，为所有出现过的词给定一个序号，进而得到一个语料库，比如语料库大小为1000。则对于一个句子比如“我爱你”进行语义建模，由于这三个字在语料库中的序号为333，335，874.则这句话的语义向量为：<code>[0,0,0,0,0,...1,0,0,1,0,...,1,0,0,0,0]</code>即在对应索引处置1即可。这样带来一个问题即’你爱我’和’我爱你’这两句意思不同的话的语义向量是相同的。所以，<strong>词袋模型不考虑词语顺序，只是将词一股脑儿的放进袋子里，根据句子内词语出现的次数来进行语义建模</strong>。</p>
+词袋模型首先会对文本进行分词，为所有出现过的词给定一个序号，进而得到一个语料库，比如语料库大小为1000。则对于一个句子比如“我爱你”进行语义建模，由于这三个字在语料库中的序号为333，335，874.则这句话的语义向量为：<code>[0,0,0,0,0,...1,0,0,1,0,...,1,0,0,0,0]</code>即在对应索引处置1即可。这样带来一个问题即'你爱我'和'我爱你'这两句意思不同的话的语义向量是相同的。所以，<strong>词袋模型不考虑词语顺序，只是将词一股脑儿的放进袋子里，根据句子内词语出现的次数来进行语义建模</strong>。</p>
 <h3 id="attention机制的缺陷">Attention机制的缺陷</h3>
 <p>attention机制是transformer的核心，其思想是计算每个token与其余token的相似度，利用这个相似度去更新token的语义。从上面的计算公式可以看出，这种相似度计算是全局的，是位置无关的，无论两个token是相近还是相远，注意力分数都是一样的。下面这个代码将这个特性展现了出来：</p>
 <p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line">d = <span class="number">8</span> <span class="comment"># 词嵌入维度</span></span><br><span class="line">t = <span class="number">3</span> <span class="comment"># 句子长度</span></span><br><span class="line">q = torch.randn(<span class="number">1</span>,d) <span class="comment"># 我</span></span><br><span class="line">k = torch.randn(t,d) <span class="comment"># 我爱你</span></span><br><span class="line">v = torch.randn(t,d) <span class="comment"># 我爱你</span></span><br><span class="line"></span><br><span class="line">w = q@k.transpose(<span class="number">1</span>,<span class="number">0</span>)</span><br><span class="line">w1 = F.softmax(w,dim=<span class="number">1</span>)</span><br><span class="line">result = w1 @ v</span><br><span class="line"></span><br><span class="line">k_shift = k[[<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>],:] <span class="comment"># 你爱我</span></span><br><span class="line">v_shift = v[[<span class="number">2</span>,<span class="number">1</span>,<span class="number">0</span>],:] <span class="comment"># 你爱我</span></span><br><span class="line">shift_w = q@k_shift.transpose(<span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">shift_w1 = F.softmax(shift_w, dim=<span class="number">1</span>)</span><br><span class="line">shift_result = shift_w1 @ v_shift</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(torch.allclose(result, shift_result))</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure></p>
-<p>即’我’在 我爱你 和 你爱我
+<p>即'我'在 我爱你 和 你爱我
 中的语义是一样的，这是肯定不对的。<strong>所以，就需要我们在transformer中添加位置编码，让模型在计算token之间的相似度时，能知晓两个token之间的相对距离</strong></p>
 <h2 id="有几种位置编码">有几种位置编码</h2>
 <p>位置编码主要分为两种，第一种是想办法将位置信息融入到输入中，这是绝对位置编码的一般做法。另一种是修改一下Attention机制的结构，使其能够在计算注意力分数时，考虑到位置信息，这构成了相对位置编码的一般做法。我们首先介绍一下绝对位置编码。</p>
 <h3 id="绝对位置编码">绝对位置编码</h3>
 <p>其公式如下：</p>
 <div style="text-align: center;">
-<p><style>.ojuvbcvwrdmn{width: 40%; height:
-40%;}</style><img src="/2025/04/02/transformer-PE/position_encoding.png" class="ojuvbcvwrdmn" alt="位置编码"></p>
+<p><style>.gbufqrfsrtjq{width: 40%; height:
+40%;}</style><img src="/2025/04/02/transformer-PE/position_encoding.png" class="gbufqrfsrtjq" alt="位置编码"></p>
 </div>
 <p>其中pos代表单个token的位置索引，比如1000个token，这个pos的取值则为0-999。i表示同一个token的向量的某一个维度索引，其中偶数维都有sin函数计算，奇数维都由cos函数计算。其代码如下所示：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">PositionEncoding</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, d_model, dropout, max_len=<span class="number">5000</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.dropout = nn.Dropout(p=dropout)</span><br><span class="line"></span><br><span class="line">        pe = torch.zeros(max_len, d_model)</span><br><span class="line">        position = torch.arange(<span class="number">0</span>, max_len).unsqueeze(<span class="number">1</span>)  <span class="comment">## (max_len, 1)</span></span><br><span class="line">        div_term = torch.exp(torch.arange(<span class="number">0</span>, d_model, <span class="number">2</span>) * (-math.log(<span class="number">10000.0</span>) / d_model))  <span class="comment">## d_model/2 中结果</span></span><br><span class="line"></span><br><span class="line">        pe[:, <span class="number">0</span>::<span class="number">2</span>] = torch.sin(position * div_term)</span><br><span class="line">        pe[:, <span class="number">1</span>::<span class="number">2</span>] = torch.cos(position * div_term)</span><br><span class="line">        pe = pe.unsqueeze(<span class="number">0</span>)  <span class="comment">## 在第一个维度添加一个维度，便于批处理  (1, max_len, d_model)</span></span><br><span class="line">        self.register_buffer(<span class="string">&#x27;pe&#x27;</span>, pe)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = x + torch.tensor(self.pe[:, :x.size(<span class="number">1</span>)], requires_grad=<span class="literal">False</span>)  <span class="comment">## max_len是模型能接受的最大长度token输入，推理时token长度是不定的，x.size()是B,T,C</span></span><br><span class="line">        <span class="comment">## x.size(1)是输入的token长度，则将输入token长度对应的位置编码加入到计算中</span></span><br><span class="line">        <span class="keyword">return</span> self.dropout(x)</span><br></pre></td></tr></table></figure>
@@ -136,13 +144,13 @@ cos(x)sink，其中sink和cosk看作常数。即给定距离k和当前位置，k
 <li>综上所述，绝对位置编码能够反映token之间的绝对位置信息，同时也能够一定程度上反映token之间的相对位置。</li>
 </ul>
 <div style="display: flex; justify-content: space-between;">
-<p><style>.ygqdqwyoisnm{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/02.png" class="ygqdqwyoisnm" alt="相距为k的向量的点积">
-<style>.nkluyfoohecm{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/03.png" class="nkluyfoohecm" alt="远程衰减"></p>
+<p><style>.ypxgnqfbpfzp{width: 40%; height: auto;}</style><img src="/2025/04/02/transformer-PE/02.png" class="ypxgnqfbpfzp" alt="相距为k的向量的点积">
+<style>.rovwkurmsdrw{width: 40%; height: auto;}</style><img src="/2025/04/02/transformer-PE/03.png" class="rovwkurmsdrw" alt="远程衰减"></p>
 </div>
 <p>所以，综上所述，绝对位置编码能够较好的表示token的位置信息，同时，也能够表示一定的相对位置信息。但是<strong>在实际使用中，绝对位置编码的外推性和远程衰减的特性都不能很好的展现</strong>。原因如下：</p>
 <div style="text-align: center;">
-<p><style>.licqetjyesxm{width: 60%; height:
-auto;}</style><img src="/2025/04/02/transformer-PE/04.png" class="licqetjyesxm" alt="经过Attention层的位置编码"></p>
+<p><style>.kdloptzcygpm{width: 60%; height:
+auto;}</style><img src="/2025/04/02/transformer-PE/04.png" class="kdloptzcygpm" alt="经过Attention层的位置编码"></p>
 </div>
 <p>由上图可知，位置编码是和word_embedding加和在一起的，经过注意力层的Q和K点积之后，其远程衰减的特性消失了，那么其表达相对位置的能力就不存在了。Q和K点积的公式如下：
 <span class="math display">\[

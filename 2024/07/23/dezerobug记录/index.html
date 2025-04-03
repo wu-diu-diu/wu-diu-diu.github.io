@@ -125,7 +125,7 @@ target="_blank" rel="noopener" href="https://blog.csdn.net/QH2107/article/detail
 <p><strong>4.系统环境变量Path丢失</strong>：不知道怎么环境变量里的Path路径没了，安装conda，cuda，运行hexo都需要添加环境变量。
 ### 解决方法
 故新建了一个环境变量Path，参照网上的图片添加了相应的路径，也不知道对不对。<strong>后续出现找不到命令的错误</strong>，多半是因为该命令的exe文件所在的路径没有添加至环境变量当中。</p>
-<p><strong>5.module ‘cupy’ has no attribute ‘scatter_add’</strong>
+<p><strong>5.module 'cupy' has no attribute 'scatter_add'</strong>
 上面的问题都解决后，出现了这个小问题，原因是cupy版本过新，已经没有这个方法了</p>
 <h3 id="解决方法">解决方法</h3>
 <p>在发生错误的位置，import

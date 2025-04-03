@@ -117,10 +117,10 @@
 <h1 id="git">git</h1>
 <ul>
 <li>git add .</li>
-<li>git commit -m “first commit”</li>
+<li>git commit -m "first commit"</li>
 <li>git status</li>
 <li>git remote -v 查看所有远端仓库</li>
-<li>git remote add name git@…… 添加远端仓库</li>
+<li>git remote add name git@...... 添加远端仓库</li>
 <li>git remote remove name 移除远端仓库</li>
 </ul>
 <h1 id="linux">linux</h1>
@@ -192,7 +192,7 @@
 <li>第一个字符表示文件类型，d表示目录，-表示普通文件，l表示符号链接等。</li>
 <li>接下来的9个字符分为三组，每组三个字符，分别表示所有者、所属组和其他用户的权限。</li>
 <li>每组中的三个字符分别表示读（r）、写（w）和执行（x）权限。如果某个权限没有被授予，则用-表示。</li>
-<li>drwxr-xr–：表示这是一个目录，所有者有读、写和执行权限，所属组有读和执行权限，其他用户只有读权限。</li>
+<li>drwxr-xr--：表示这是一个目录，所有者有读、写和执行权限，所属组有读和执行权限，其他用户只有读权限。</li>
 </ul></li>
 <li><code>chmod -R u+rwx /path/folder</code>:
 <ul>
@@ -209,13 +209,13 @@
 <li><code>systemctl status gdm</code>或者<code>systemctl status lightdm</code>查看桌面环境运行状态</li>
 <li><code>sudo systemctl restart gdm</code>重启桌面环境即可 #
 huggingface ## 下载模型或者数据</li>
-<li>pip install -U “huggingface_hub[cli]” 下载huggingface_hub</li>
+<li>pip install -U "huggingface_hub[cli]" 下载huggingface_hub</li>
 <li>huggingface-cli login 登录，使用token，在hf界面设置access token</li>
-<li>$env:HF_ENDPOINT = “https://hf-mirror.com” 使用国内镜像</li>
-<li>huggingface-cli download –resume-download gpt2 –local-dir gpt2
+<li>$env:HF_ENDPOINT = "https://hf-mirror.com" 使用国内镜像</li>
+<li>huggingface-cli download --resume-download gpt2 --local-dir gpt2
 下载模型</li>
-<li>下载数据集 huggingface-cli download –repo-type dataset
-–resume-download wikitext –local-dir wikitext</li>
+<li>下载数据集 huggingface-cli download --repo-type dataset
+--resume-download wikitext --local-dir wikitext</li>
 <li>token存储地址：C:\123.cache_tokens ## excalidraw(linux)</li>
 <li>cd excalidraw<br />
 </li>

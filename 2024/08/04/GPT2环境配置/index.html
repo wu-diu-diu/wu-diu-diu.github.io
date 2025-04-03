@@ -108,7 +108,7 @@ target="_blank" rel="noopener" href="https://pytorch.org/get-started/previous-ve
 target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64/">清华镜像网站</a>找到对应python版本的pytorch，torchvision和torchaudio包的文件并下载，并使用下述命令下载到虚拟环境：</p>
 <pre><code>conda install --use-local C:\Users\武丢丢\Downloads\文件名</code></pre>
 <p>2.使用conda search cuda
-–info命令，得到适配的cuda版本及下载网址，cudnn同理。得到cuda和cudnn的本地包之后，用步骤1命令下载到虚拟环境。</p>
+--info命令，得到适配的cuda版本及下载网址，cudnn同理。得到cuda和cudnn的本地包之后，用步骤1命令下载到虚拟环境。</p>
 <p>3.下载完进入虚拟环境后运行<code>import torch</code>会报错<strong>shm.dll</strong>找不到,这是在虚拟环境中再次运行pytorch官方命令：（<strong>这次会快很多</strong>）</p>
 <pre><code>conda install pytorch==2.2.0 torchvision==0.17.0 torchaudio==2.2.0 pytorch-cuda=11.8 -c pytorch -c nvidia</code></pre>
 <p>即可解决错误</p>
