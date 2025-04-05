@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="武丢丢"><meta name="renderer" content="webkit"><meta name="copyright" content="武丢丢"><meta name="keywords" content="武丢丢"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>transformer-Normalization · Punchy's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-Normalization</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-04</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    processEscapes: true,
+  }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
+<h1 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h1><p>Normalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思想是将输入数据的分布进行改变，改变数据的均值和方差，方便训练的进行。</p>
+<h2 id="为什么需要Normalizaion"><a href="#为什么需要Normalizaion" class="headerlink" title="为什么需要Normalizaion"></a>为什么需要Normalizaion</h2><p>在机器学习中，一般将采集到的真实场景的数据分为训练集和测试集，并假设训练集和测试集符合独立同分布，即将训练集和测试集看作两个随机变量<strong>X</strong>和<strong>Y</strong>，二者分布相同但却相互独立，这样才能保证训练集上表现良好的模型同样使用于测试集，即真实的场景。</p>
+<p>但是人们发现有时候模型在训练集上表现出色，但是用在测试集上的时候，模型的表现却很糟糕。究其原因，是因为测试集和训练集的数据分布不同。假如对于一个分类模型，其一般基于一个条件分布假设，即：</p>
+<p>$$<br>P(y | \mathbf{x}) \tag{1.1}<br>$$</p>
+<p>其中<strong>x</strong>即为数据分布，y是标签。我们一般认为分类任务是x导致y，那么如果x发生改变，y的预测则也会发生改变。所以我们需要在模型中添加标准化层，期望当输入数据发生一定程度的偏移时，模型仍然能够work。</p>
+<h2 id="分布偏移类型"><a href="#分布偏移类型" class="headerlink" title="分布偏移类型"></a>分布偏移类型</h2><h3 id="协变量偏移-Covariate-Shift"><a href="#协变量偏移-Covariate-Shift" class="headerlink" title="协变量偏移(Covariate Shift)"></a>协变量偏移(Covariate Shift)</h3><p><strong>协变量</strong>是统计学中的一个概念，通常出现在回归分析中，表示可能会导致因变量发生变化的自变量中不是你重点关注的自变量。听起来很绕口，举个例子，假如你研究收入和受教育年限的关系，其中收入是因变量y，受教育年限是自变量或者解释变量x。直觉上来判断，受教育年限应该和收入的关系是正相关的，但是年龄也是一个重要的影响因变量收入的因素对吧，因为显然年龄40的人的收入普遍比年龄20的人的收入高，但这不是我们要重点研究的方向。所以我们要控制年龄这个变量防止其影响我们的实验结果，方法即为我们在同一年龄段内去收集样本。</p>
+<p>这里的年龄即为协变量，它不是你研究的对象但却能影响实验结果。</p>
+<p>那么在深度学习中，一般使用神经网络模型去做回归或者分类。神经网络的核心公式如下：<br>$$<br>Y &#x3D; \sigma(X \cdot W + b) &#x3D; \sigma(W \cdot X) \tag{1.2}<br>$$</p>
+<p>将b参数也添加到权重矩阵中后，则上式中的W可以视为自变量，因为我们在训练中不断调整神经网络的权重参数才能达到目的，Y视为因变量，那么数据X则为协变量。所以数据的分布发生改变则叫做协变量偏移。</p>
+<p>举个例子，假如给定一个显示中的猫狗图像数据集去训练一个分类模型，200只猫，300只狗，但是测试的时候却使用一个动漫的猫狗数据集，同样是200只猫，300只狗，这很考验模型的迁移学习能力。如果模型没有Normalization，还能不能work呢？有空可以做一个实验。</p>
+<h3 id="标签偏移"><a href="#标签偏移" class="headerlink" title="标签偏移"></a>标签偏移</h3><p>标签偏移和协变量偏移正好相反，即标签的分布发生了改变。例如，预测患者的疾病，我们可能根据症状来判断，即使疾病的相对流行率随着时间的推移而变化。标签偏移在这里是恰当的假设，因为疾病会引起症状。在另一些情况下，标签偏移和协变量偏移假设可以同时成立。例如,当标签是确定的，即使y导致x，协变量偏移假设也会得到满足。有趣的是，在这些情况下，使用基于标签偏移假设的方法通常是有利的。 这是因为这些方法倾向于包含看起来像标签（通常是低维）的对象，而不是像输入（通常是高维的）对象。</p>
+<h2 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h2><p>Batch Normalization顾名思义是对batch层进行归一化和标准化。使用它的原因有以下几个：</p>
+<ul>
+<li>1.通常我们需要将输入数据进行标准化，限制数据的大小在一个固定的量级，这样方便处理数据，加快模型收敛。</li>
+<li>2.神经网络模型通常有很多层，每个层的输出在训练中可能会有不同的变化范围。假如一个层的输出的值的变化范围是另一个层的100倍，那么显然我们需要为输出变化范围较大的层，设置较小的学习率，以避免更新幅度过大。所以我们需要在每个层的输出加一个BN层，从而避免这种情况的发生。</li>
+<li>3.对于深层的网络，如果输入数据的分布方差较大，在通过激活层的时候，容易发生梯度消失，即进入激活函数的梯度饱和区，进而影响模型的收敛速度。</li>
+<li>4.通过BN层，可以将模型的不同的特征的分布都限定在一个范围内，从而减少内部协变量偏移(Internal Covariate Shift)</li>
+</ul>
+<h3 id="BN层思路"><a href="#BN层思路" class="headerlink" title="BN层思路"></a>BN层思路</h3><ul>
+<li>对于二维数据，其形状一般为<strong>B,C</strong>，那么我们会在Batch维度上求解均值和方差，再让数据减去均值除以标准差，这样对于这一个批量的数据，它们在每一个特征维度上，都是均值为0，方差为1的。举个例子，比如15个样本，每个样本有10个特征，则数据形状为(15,10)。求得均值和方差的形状都为(1,10)，再减去均值除以方差，将15个样本的每个特征维度看作一个随机变量的话，那么这10个随机变量都服从均值为0，方差为1的分布。</li>
+<li>对于图像数据，一般是三维<strong>B,C,H*W</strong>或者四维<strong>B,C,H,W</strong>,这时我们会去计算通道维度上均值和方差，如图1所示，蓝色部分表示要qiu。因为在图像的处理中，通道维C可以看作图像的特征。在卷积神经网络中，一个RGB三通道的图像，在经过多个卷积层之后，通道数在增加，图像尺寸是在减少。<strong>因为我们希望用更多的通道来捕捉模型更抽象的特征</strong>。举个例子，对于10张<strong>H,W</strong>大小的彩色图像，在经过BN层时，我们会计算R通道的所有像素值再除以<strong>10 * H * W</strong>，这样便得到了R通道的均值，R通道所有的值都减去均值再平方，再对结果求和除以<strong>10 * H * W</strong>，变得到了方差。同理，其他通道也一样。所以对于图像数据，我们是保证每个通道维度上的数据的分布都服从均值为0，方差为1的分布。</li>
+<li>当然，如果单纯的把输入限制为标准分布也不合理，我们还会给数据乘以一个拉伸参数$\gamma$和偏移参数$\beta$，这两个参数是可学习的参数，让模型自己去学习该输出什么样的分布。</li>
+</ul>
+<div style="text-align: center;">
+  <style>.qkobvyozjcls{width: 30%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/01.png" class="qkobvyozjcls" alt="图1：BN层">
+</div>
+
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">batch_norm</span>(<span class="params">X, gamma, beta, moving_mean, moving_var, eps, momentum</span>):</span><br><span class="line">    <span class="comment"># 通过is_grad_enabled来判断当前模式是训练模式还是预测模式</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> torch.is_grad_enabled():</span><br><span class="line">        <span class="comment"># 如果是在预测模式下，直接使用传入的移动平均所得的均值和方差</span></span><br><span class="line">        X_hat = (X - moving_mean) / torch.sqrt(moving_var + eps)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">assert</span> <span class="built_in">len</span>(X.shape) <span class="keyword">in</span> (<span class="number">2</span>, <span class="number">4</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(X.shape) == <span class="number">2</span>:</span><br><span class="line">            <span class="comment"># 使用全连接层的情况，计算特征维上的均值和方差，mean和var的形状: (1, C)</span></span><br><span class="line">            mean = X.mean(dim=<span class="number">0</span>)</span><br><span class="line">            var = ((X - mean) ** <span class="number">2</span>).mean(dim=<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 使用二维卷积层的情况，计算通道维上（axis=1）的均值和方差。</span></span><br><span class="line">            <span class="comment"># 这里我们需要保持X的形状以便后面可以做广播运算</span></span><br><span class="line">            <span class="comment"># mean 和 var的形状为：(1, C, 1, 1)</span></span><br><span class="line">            mean = X.mean(dim=(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>), keepdim=<span class="literal">True</span>)</span><br><span class="line">            var = ((X - mean) ** <span class="number">2</span>).mean(dim=(<span class="number">0</span>, <span class="number">2</span>, <span class="number">3</span>), keepdim=<span class="literal">True</span>)</span><br><span class="line">        <span class="comment"># 训练模式下，用当前的均值和方差做标准化</span></span><br><span class="line">        X_hat = (X - mean) / torch.sqrt(var + eps)</span><br><span class="line">        <span class="comment"># 更新移动平均的均值和方差</span></span><br><span class="line">        moving_mean = momentum * moving_mean + (<span class="number">1.0</span> - momentum) * mean</span><br><span class="line">        moving_var = momentum * moving_var + (<span class="number">1.0</span> - momentum) * var</span><br><span class="line">    Y = gamma * X_hat + beta  <span class="comment"># 缩放和移位</span></span><br><span class="line">    <span class="keyword">return</span> Y, moving_mean.data, moving_var.data</span><br></pre></td></tr></table></figure>
+
+<p>由代码可以看出，BN层在训练和推理阶段的行为是不同的，体现在对mean和var的选取上。在训练时，我们使用当前这一个小批次的数据的均值和方差来做归一化，同时使用滑动平均的方法来保存当前批次的均值和方差。在推理时，我们使用训练时保存的滑动平均的均值和方差来对数据进行归一化。使用滑动平均的方法可以保证均值和方差的更新更多的依赖历史数据，有助于减少小批量数据的波动，提供更稳定的估计。其中<strong>momentum</strong>越大，表示均值估计越依赖历史数据，越小，则越快的反映最近的小批量的统计信息，可能导致估计不够稳定。</p>
+<p>那为什么要使用小批量数据来训练模型呢？</p>
+<ul>
+<li>一个显而易见的回答是内存限制。如果数据过多不可能一次输入到模型中进行计算，那么显然我们需要小批量来处理数据。</li>
+<li>在梯度下降算法中，梯度是损失函数关于模型参数的导数，指导模型参数更新的方向。一个样本可以视为高维空间中的一个点，如果使用数据集中所有样本的梯度的均值来指导模型去更新参数，理论上是最好的，但却不现实。如果只使用一个样本来计算梯度去指导模型更新，那么这个梯度大小非常不稳定，模型不能很好的收敛。所以小批量梯度更新是一种折中的办法。此外根据大数定律，当样本足够大时，样本的均值等于总体均值。</li>
+</ul>
+<p>所以在推理时，滑动平均的均值和方差可以看作包含了整个数据集的均值和方差。此外推理时批量大小可能为1，如果这时仍然使用小批量均值，那么样本值的特征值都会变成0，显然是不对的。</p>
+<h2 id="Layer-Normalization"><a href="#Layer-Normalization" class="headerlink" title="Layer Normalization"></a>Layer Normalization</h2><p>BN层提出来后，被广泛应用于CNN任务上来处理图像并取得了很好的效果。但是针对文本任务时，由于一个批量的文本数据的长度可能是不一致的，所以我们需要使用LN，有以下几个原因：</p>
+<ul>
+<li>如果我们将不同文本的同一个位置的token看作特征，去计算这一个位置的均值做标准化的话，某些句子由于比较短，很可能这个位置上就没有token，这时会被0代替就是我们常用的padding。那么这样求出来的均值就会有误差，再用这个均值去归一化，每个位置的token的分布就不再是标准分布。</li>
+<li>不同的句子的同一位置的token到底能不能看作同一类特征？我觉得不一定。因为不同的句子中的词语的语义不是由它的位置所决定的，而是由这个词所处的上下文所决定的。所以，token的语义向量才可以被看作特征。</li>
+<li>我们都知道在注意力机制中，注意力分数的计算可以看作不同token之间的交流，通过这种交流得到的权重，每个token都会去更新自己的语义向量。也就是说，这种交流引起的语义向量的改变只发生在注意力计算中，而其他层比如LN层和MLP层，都只是在token的维度上对语义向量进行操作，比如归一化，升维，降维，点乘等</li>
+</ul>
+<p>所以，在图像处理任务中，LN是指对一整张图片进行标准化处理，即在一张图片所有channel的pixel范围内计算均值和方差。而在NLP的问题中，LN是指在一个句子的一个token的范围内进行标准化。如下图所示。</p>
+<div style="display: flex; justify-content: space-between;">
+  <style>.xilqldstvxyo{width: 70%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/02.jpg" class="xilqldstvxyo" alt="CNN中">
+  <style>.iwxmhxldtjie{width: 70%; height: 80%;}</style><img src="/2025/04/04/transformer-Normalization/03.jpg" class="iwxmhxldtjie" alt="远程衰减">
+</div>
+
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">CustomLayerNorm</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, normalized_shape, eps=<span class="number">1e-5</span></span>):</span><br><span class="line">        <span class="built_in">super</span>(CustomLayerNorm, self).__init__()</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        初始化 LayerNorm 层。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">        - normalized_shape: 需要归一化的特征维度。可以是一个整数（单个维度）或一个元组（多个维度）。</span></span><br><span class="line"><span class="string">        - eps: 用于数值稳定性的小常数，防止除以零。</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        self.normalized_shape = normalized_shape</span><br><span class="line">        self.eps = eps</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义可学习的参数 gamma 和 beta</span></span><br><span class="line">        self.gamma = nn.Parameter(torch.ones(normalized_shape))  <span class="comment"># 缩放参数</span></span><br><span class="line">        self.beta = nn.Parameter(torch.zeros(normalized_shape))  <span class="comment"># 平移参数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">        前向传播函数。</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        参数:</span></span><br><span class="line"><span class="string">        - x: 输入张量，形状为 (batch_size, *normalized_shape)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        返回:</span></span><br><span class="line"><span class="string">        - 归一化后的张量</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        <span class="comment"># 计算均值和方差</span></span><br><span class="line">        mean = x.mean(dim=-<span class="number">1</span>, keepdim=<span class="literal">True</span>)  <span class="comment"># 沿最后一个维度计算均值</span></span><br><span class="line">        var = x.var(dim=-<span class="number">1</span>, keepdim=<span class="literal">True</span>, unbiased=<span class="literal">False</span>)  <span class="comment"># 沿最后一个维度计算方差</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 归一化</span></span><br><span class="line">        x_norm = (x - mean) / torch.sqrt(var + self.eps)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 应用缩放和平移</span></span><br><span class="line">        x_norm = self.gamma * x_norm + self.beta</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> x_norm</span><br></pre></td></tr></table></figure>
+
+<h2 id="RMSnorm"><a href="#RMSnorm" class="headerlink" title="RMSnorm"></a>RMSnorm</h2><ul>
+<li>是layernorm的一种，相比于layernorm，rmsnorm在归一化时不再计算均值，而是只计算均方根，即只保留layernorm层对输入的缩放不变性，放弃平移不变性</li>
+<li>有研究表明，Layernorm之所以有效，更多的是因为其缩放不变性，而不是平移不变性</li>
+</ul>
+<p>代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">RMSNorm</span>(nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, hidden_size, eps=<span class="number">1e-6</span></span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.weight = nn.Parameter(torch.ones(hidden_size))</span><br><span class="line">        self.varance_eps = eps</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, hidden_states</span>):</span><br><span class="line">        input_dtype = hidden_states.dtype</span><br><span class="line">        <span class="comment">## 计算平方的均值</span></span><br><span class="line">        variance = hidden_states.to(torch.float32).<span class="built_in">pow</span>(<span class="number">2</span>).mean(-<span class="number">1</span>, keepdim=<span class="literal">True</span>)</span><br><span class="line">        hidden_states = hidden_states * torch.rsqrt(variance + self.varance_eps)</span><br><span class="line">        <span class="comment">## weight是可训练参数</span></span><br><span class="line">        <span class="keyword">return</span> (self.weight * hidden_states).to(input_dtype)</span><br></pre></td></tr></table></figure>
+
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://example.com">武丢丢</a></p><p> <span>Link:  </span><a href="http://example.com/2025/04/04/transformer-Normalization/">http://example.com/2025/04/04/transformer-Normalization/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2025/04/02/transformer-PE/" title="transformer-位置编码"><span>NextPost ></span><br><span class="nextTitle">transformer-位置编码</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Normalization"><span class="toc-number">1.</span> <span class="toc-text">Normalization</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81Normalizaion"><span class="toc-number">1.1.</span> <span class="toc-text">为什么需要Normalizaion</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%81%8F%E7%A7%BB%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">分布偏移类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%8F%E5%8F%98%E9%87%8F%E5%81%8F%E7%A7%BB-Covariate-Shift"><span class="toc-number">1.2.1.</span> <span class="toc-text">协变量偏移(Covariate Shift)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%87%E7%AD%BE%E5%81%8F%E7%A7%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">标签偏移</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Batch-Normalization"><span class="toc-number">1.3.</span> <span class="toc-text">Batch Normalization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BN%E5%B1%82%E6%80%9D%E8%B7%AF"><span class="toc-number">1.3.1.</span> <span class="toc-text">BN层思路</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Layer-Normalization"><span class="toc-number">1.4.</span> <span class="toc-text">Layer Normalization</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RMSnorm"><span class="toc-number">1.5.</span> <span class="toc-text">RMSnorm</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
