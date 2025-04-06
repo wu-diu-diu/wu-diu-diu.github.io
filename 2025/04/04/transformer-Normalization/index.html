@@ -107,7 +107,9 @@ MathJax = {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 
-<h1 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h1><p>Normalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思想是将输入数据的分布进行改变，改变数据的均值和方差，方便训练的进行。</p>
+<h1 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h1><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/456863215">Transformer学习笔记三：为什么Transformer要用LayerNorm&#x2F;Batch Normalization &amp; Layer Normalization （批量&amp;层标准化)</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/litt1e/article/details/105817224">深入理解Batch Normalization原理与作用</a></p>
+<p>Normalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思想是将输入数据的分布进行改变，改变数据的均值和方差，方便训练的进行。</p>
 <h2 id="为什么需要Normalizaion"><a href="#为什么需要Normalizaion" class="headerlink" title="为什么需要Normalizaion"></a>为什么需要Normalizaion</h2><p>在机器学习中，一般将采集到的真实场景的数据分为训练集和测试集，并假设训练集和测试集符合独立同分布，即将训练集和测试集看作两个随机变量<strong>X</strong>和<strong>Y</strong>，二者分布相同但却相互独立，这样才能保证训练集上表现良好的模型同样使用于测试集，即真实的场景。</p>
 <p>但是人们发现有时候模型在训练集上表现出色，但是用在测试集上的时候，模型的表现却很糟糕。究其原因，是因为测试集和训练集的数据分布不同。假如对于一个分类模型，其一般基于一个条件分布假设，即：</p>
 <p>$$<br>P(y | \mathbf{x}) \tag{1.1}<br>$$</p>
@@ -131,7 +133,7 @@ MathJax = {
 <li>当然，如果单纯的把输入限制为标准分布也不合理，我们还会给数据乘以一个拉伸参数$\gamma$和偏移参数$\beta$，这两个参数是可学习的参数，让模型自己去学习该输出什么样的分布。</li>
 </ul>
 <div style="text-align: center;">
-  <style>.qkobvyozjcls{width: 30%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/01.png" class="qkobvyozjcls" alt="图1：BN层">
+  <style>.limlgynqezkb{width: 30%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/01.png" class="limlgynqezkb" alt="图1：BN层">
 </div>
 
 <p>代码如下：</p>
@@ -152,8 +154,8 @@ MathJax = {
 </ul>
 <p>所以，在图像处理任务中，LN是指对一整张图片进行标准化处理，即在一张图片所有channel的pixel范围内计算均值和方差。而在NLP的问题中，LN是指在一个句子的一个token的范围内进行标准化。如下图所示。</p>
 <div style="display: flex; justify-content: space-between;">
-  <style>.xilqldstvxyo{width: 70%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/02.jpg" class="xilqldstvxyo" alt="CNN中">
-  <style>.iwxmhxldtjie{width: 70%; height: 80%;}</style><img src="/2025/04/04/transformer-Normalization/03.jpg" class="iwxmhxldtjie" alt="远程衰减">
+  <style>.ufkskdxcxfuc{width: 70%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/02.jpg" class="ufkskdxcxfuc" alt="CNN中">
+  <style>.uruqzzzljaxf{width: 70%; height: 80%;}</style><img src="/2025/04/04/transformer-Normalization/03.jpg" class="uruqzzzljaxf" alt="远程衰减">
 </div>
 
 <p>代码如下：</p>

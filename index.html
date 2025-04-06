@@ -107,8 +107,9 @@ MathJax = {
 
 
 
-NormalizationNormalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思想是将输入数据的分布进行改变，改变数据的均值和方差，方便训练的进行。
-为什么需要Normalizaion在机器学习中，一般将采集到的真实场景的数据分为训练集和测试集，并假设训练集和测试集符合独立同分布，即将训练集和测试集看作两个随机变量X和Y，二者分布相同但却相互独立，这样 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></div><div class="read-more"><a class="more" href="/2025/04/04/transformer-Normalization/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/02/transformer-PE/">transformer-位置编码</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-02T07:33:56.000Z">2025-04-02</time></div><div class="recent-post-content">
+NormalizationTransformer学习笔记三：为什么Transformer要用LayerNorm&#x2F;Batch Normalization &amp; Layer Normalization （批量&amp;层标准化)
+深入理解Batch Normalization原理与作用
+Normalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></div><div class="read-more"><a class="more" href="/2025/04/04/transformer-Normalization/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/02/transformer-PE/">transformer-位置编码</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-02T07:33:56.000Z">2025-04-02</time></div><div class="recent-post-content">
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -120,7 +121,7 @@ MathJax = {
 
 Transformer之位置编码为什么需要位置编码注意力计算公式如下图所示：  
 
-  .dheexumdamio{width: 40%; height: 40%;}
+  .tqgeybwvwnrw{width: 40%; height: 40%;}
 
 
 其中q和k分别为query和key，代表token的语义信息。如果没有位置编码，那么q和k的计算结果是不受二者之间相对距离大小的影响的。也就是说，如果没有位置编码，那么transformer就是一个类词袋模型。
