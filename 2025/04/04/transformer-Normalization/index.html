@@ -97,7 +97,7 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-Normalization</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-04</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-Normalization</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-04</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -133,7 +133,7 @@ MathJax = {
 <li>当然，如果单纯的把输入限制为标准分布也不合理，我们还会给数据乘以一个拉伸参数$\gamma$和偏移参数$\beta$，这两个参数是可学习的参数，让模型自己去学习该输出什么样的分布。</li>
 </ul>
 <div style="text-align: center;">
-  <style>.jlgyeolfbxhc{width: 30%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/01.png" class="jlgyeolfbxhc" alt="图1：BN层">
+  <style>.dmersclexjer{width: 30%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/01.png" class="dmersclexjer" alt="图1：BN层">
 </div>
 
 <p>代码如下：</p>
@@ -154,8 +154,8 @@ MathJax = {
 </ul>
 <p>所以，在图像处理任务中，LN是指对一整张图片进行标准化处理，即在一张图片所有channel的pixel范围内计算均值和方差。而在NLP的问题中，LN是指在一个句子的一个token的范围内进行标准化。如下图所示。</p>
 <div style="display: flex; justify-content: space-between;">
-  <style>.ylmmccjvpnmu{width: 70%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/02.jpg" class="ylmmccjvpnmu" alt="CNN中">
-  <style>.hegcyjyislyf{width: 70%; height: 80%;}</style><img src="/2025/04/04/transformer-Normalization/03.jpg" class="hegcyjyislyf" alt="远程衰减">
+  <style>.mrzvroqciooe{width: 70%; height: auto;}</style><img src="/2025/04/04/transformer-Normalization/02.jpg" class="mrzvroqciooe" alt="CNN中">
+  <style>.eylbgprvalqk{width: 70%; height: 80%;}</style><img src="/2025/04/04/transformer-Normalization/03.jpg" class="eylbgprvalqk" alt="远程衰减">
 </div>
 
 <p>代码如下：</p>
