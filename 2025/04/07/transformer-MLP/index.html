@@ -97,7 +97,7 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-MLP</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-07</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">transformer-MLP</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-07</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><script>
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -118,12 +118,12 @@ MathJax = {
 <h1 id="MLP的架构"><a href="#MLP的架构" class="headerlink" title="MLP的架构"></a>MLP的架构</h1><p>而在transformer的MLP中，上不同的模型可能会在这个基础上添加一些dropout层来防止过拟合，或者添加gate层(门控投影)来进行一种门控操作。</p>
 <p>下面以Llama的一个Base模型(0.8B)的MLP层为例，其内部结构如下图：</p>
 <div style="text-align: center;">
-  <style>.licuoqjviitw{width: 40%; height: 40%;}</style><img src="/2025/04/07/transformer-MLP/01.png" class="licuoqjviitw" alt="MLP层">
+  <style>.zpwkjfcdtaav{width: 40%; height: 40%;}</style><img src="/2025/04/07/transformer-MLP/01.png" class="zpwkjfcdtaav" alt="MLP层">
 </div>
 
 <p>由上图可知，大小为<strong>H:4096</strong>的隐藏向量在进入MLP层时，会并行进入gate层和up_proj层，得到一个大小为<strong>intermediate_size:11008</strong>的中间向量，然后gate的输出经过ACT2FN，这是一个包含不同激活函数的字典，llama中使用的激活函数是silu，其函数图像如下：</p>
 <div style="text-align: center;">
-  <style>.vksagjjjldvi{width: 40%; height: 40%;}</style><img src="/2025/04/07/transformer-MLP/02.png" class="vksagjjjldvi" alt="Silu激活函数">
+  <style>.ekffisqjnmte{width: 40%; height: 40%;}</style><img src="/2025/04/07/transformer-MLP/02.png" class="ekffisqjnmte" alt="Silu激活函数">
 </div>
 
 <p>可以看到和relu函数很像，不同之处在于函数在过零点是更平滑一点，则零点附近的梯度不是像relu一样非零即1，则其同时具有relu的优点：避免梯度饱和区带来的可能的梯度消失。又避免了relu的缺点:零点梯度不存在且附近的梯度不够平滑。</p>
@@ -134,7 +134,7 @@ MathJax = {
 <p>MoE的的想法是，每个网络即专家，处理训练样本的不同子集，每个网络专注于输入空间的特定区域。那么如何选择哪个专家来处理哪个区域呢？这就是门控网络要决定的。</p>
 <h2 id="MoE的构成"><a href="#MoE的构成" class="headerlink" title="MoE的构成"></a>MoE的构成</h2><p>MoE其实是对原本transformer中的MLP的替代，这里我们称原始的MLP为稠密的，因为MoE是稀疏的。为什么稀疏？看一下它的架构就知道了。如下图所示：</p>
 <div style="text-align: center;">
-  <style>.hlejtzddgpbn{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/03.png" class="hlejtzddgpbn" alt="MoE">
+  <style>.mdjdkgtwmwdq{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/03.png" class="mdjdkgtwmwdq" alt="MoE">
 </div>
 
 <p>可以看到，一个门控网络Router的输入是token的语义向量，输出是一个概率。这个概率决定了这个token会被哪个FFN所处理。这就是MoE的实现办法。而FFN其实和MLP是一样的只是叫法不同，其代码如下：</p>
@@ -149,7 +149,7 @@ MathJax = {
 <h2 id="负载均衡"><a href="#负载均衡" class="headerlink" title="负载均衡"></a>负载均衡</h2><p>在通常的混合专家模型 (MoE) 训练中，门控网络往往倾向于主要激活相同的几个专家。这种情况可能会自我加强，因为受欢迎的专家训练得更快，因此它们更容易被选择。这种情况是我们不愿意看到的，因为这样其余的专家得不到充分的训练，没有达到我们想要的”不同的专家处理不同领域的问题”的初衷。同时从硬件角度来讲，不同的专家网络分布在不同的设备，训练不充分导致硬件资源利用率很低。</p>
 <p>为了缓解这个问题，引入了一个辅助损失，旨在鼓励给予所有专家相同的重要性。这个损失确保所有专家接收到大致相等数量的训练样本，从而平衡了专家之间的选择。其中一种比较简单的辅助损失函数如下：</p>
 <div style="text-align: center;">
-  <style>.mdcjfmkvdwqs{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/04.png" class="mdcjfmkvdwqs" alt="辅助损失函数">
+  <style>.bfiboyyycbjm{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/04.png" class="bfiboyyycbjm" alt="辅助损失函数">
 </div>
 
 <p>其中几个参数的含义如下：</p>
@@ -164,19 +164,19 @@ MathJax = {
 <p>然而，使用这种辅助损耗来平衡负载是有代价的，因为其梯度可能会干扰语言建模目标的梯度，导致模型性能下降，综上所述，辅助损耗控制的负载均衡是一把双刃剑，如果alpha值未经仔细调整，可能会对模型性能产生负面影响。在实际应用中，由于资源限制，在大型语言模型训练期间调整alpha值具有挑战性，这进一步增加了优化过程的复杂性。</p>
 <h1 id="Deepseek中的专家架构"><a href="#Deepseek中的专家架构" class="headerlink" title="Deepseek中的专家架构"></a>Deepseek中的专家架构</h1><p>Deepseek-V3中使用的MoE架构可以说是业界比较前沿的架构了。它继承自deepseek-v2，主要有两个亮点，第一个即是使用了路由专家和共享专家的概念。如下图所示：</p>
 <div style="text-align: center;">
-  <style>.texkstlhyldt{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/05.png" class="texkstlhyldt" alt="辅助损失函数">
+  <style>.ckdbodgdpgfm{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/05.png" class="ckdbodgdpgfm" alt="辅助损失函数">
 </div>
 
 <p>可以看到，所有token都会进入共享专家，所有token也都会进入路由(Router)，而Router最终会决定这些token各自进入哪一个专家。Deepseek的每一个MoE层会有256个路由专家，包含一个共享专家。其核心计算方法如论文中的公式如下：</p>
 <div style="text-align: center;">
-  <style>.wmdzmcypoogh{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/06.png" class="wmdzmcypoogh" alt="DeepseekMoE">
+  <style>.nsgbhyvqxmwq{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/06.png" class="nsgbhyvqxmwq" alt="DeepseekMoE">
 </div>
 
 <p>其中$u_t$表示当前序列中的第t个token的语义向量。由第一个公式可知，该token会经过所有的共享专家。$N_s$表示共享专家的个数。同时也会经过router为其选择topK个路由专家。$N_r$为路由专家的数量。最终token原本的向量和上面这两个结果加载一起构成MoE层对于单个token的输出。</p>
 <p>最后一个公式$s_{i, t}$表示第t个token对应第i个专家的概率，第三个公式表明，处了被选中的topk个专家，其余专家的概率都为0。第二个公式表示被选中的专家的的结果加权求和时的权重。</p>
 <h2 id="无损失负载均衡策略"><a href="#无损失负载均衡策略" class="headerlink" title="无损失负载均衡策略"></a>无损失负载均衡策略</h2><p>Deepseek采用了两种负载均衡方法，第一种是没有辅助损失函数的。即在门控网络的输出经过softmax之后的概率上加一个偏差，如下图所示：</p>
 <div style="text-align: center;">
-  <style>.rqfxqihzfvjp{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/07.png" class="rqfxqihzfvjp" alt="无损失负载均衡">
+  <style>.roggsmpydbiu{width: 40%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/07.png" class="roggsmpydbiu" alt="无损失负载均衡">
 </div>
 
 <p>这个偏置的逻辑是，如果某些专家被过度选择，则偏置会变为负数从而降低专家被选择的概率。如果某些专家过于闲置，则偏置为负数，提高其被选择的概率。具体计算方式为：</p>
@@ -186,7 +186,7 @@ MathJax = {
 <li>偏差由该差值（或误差）的符号乘以一个固定的更新率决定，更新率是一个可调的超参数。<br>由此可见，如果一个专家被过度选择，则这个差值则为负数。如下所示：</li>
 </ul>
 <div style="text-align: center;">
-  <style>.kfkltxwtahbh{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/08.png" class="kfkltxwtahbh" alt="偏差的计算方式">
+  <style>.wmcqtdyslpco{width: 60%; height: auto;}</style><img src="/2025/04/07/transformer-MLP/08.png" class="wmcqtdyslpco" alt="偏差的计算方式">
 </div>
 
 <p>当然了，Deepseek同样也使用了辅助损失函数，这个函数和上面提到的辅助损失函数形式比较像，我先研究研究再说。</p>
