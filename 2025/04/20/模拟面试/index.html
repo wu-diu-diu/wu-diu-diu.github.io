@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="武丢丢"><meta name="renderer" content="webkit"><meta name="copyright" content="武丢丢"><meta name="keywords" content="武丢丢"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>模拟面试 · Punchy's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?v=1.0.0"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">模拟面试</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-04-20</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="面试"> 面试</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="利用AI进行模拟面试"><a href="#利用AI进行模拟面试" class="headerlink" title="利用AI进行模拟面试"></a>利用AI进行模拟面试</h1><p>将简历发给AI，让AI针对简历和要面试的岗位，提出一些问题，并给出AI的回答，参考AI的回答进行梳理，最终给出自己的回答。</p>
+<h2 id="个人科研助手项目"><a href="#个人科研助手项目" class="headerlink" title="个人科研助手项目"></a>个人科研助手项目</h2><h3 id="RAG的工作流程"><a href="#RAG的工作流程" class="headerlink" title="RAG的工作流程"></a>RAG的工作流程</h3><ul>
+<li>文档预处理<ul>
+<li>文档导入，使用langchain的document_loader方法，导入md文件，PPT文件，PDF文件，word等非结构化文本</li>
+<li>文档切块，多少个字符算一个块，块与块之间重合的字符数是多少</li>
+</ul>
+</li>
+<li>使用Embedding模型将chunk向量化，存储入库</li>
+<li>检索召回：用户的query作为查询向量，计算查询向量与库中向量的相似度。这里就有一个问题，查询的时候是直接遍历所有文本向量与查询向量的相似度吗？不是的，这样复杂度是O(N)，非常慢。<strong>实际Chroma底层是基于FAISS在存储的时候构建近似最近邻索引，将向量聚成多个簇或者构建图结构，查询的时候在相邻的几个簇内搜索，牺牲一点点精度换取极大的速度提升。本质上是使用特别的数据结构来换取查询效率的提升。</strong> 找到TopK个结果后，将结果和query拼接，调用LLM回答。</li>
+</ul>
+<h3 id="为什么选用Chroma，它相比于FAISS有什么优势？"><a href="#为什么选用Chroma，它相比于FAISS有什么优势？" class="headerlink" title="为什么选用Chroma，它相比于FAISS有什么优势？"></a>为什么选用Chroma，它相比于FAISS有什么优势？</h3><ul>
+<li>chroma的优势是轻量化，易于本地部署，适用于个人科研场景。相比FAISS没有那么强的分布式存储和大规模检索能力。</li>
+</ul>
+<h3 id="使用的什么Embedding模型？"><a href="#使用的什么Embedding模型？" class="headerlink" title="使用的什么Embedding模型？"></a>使用的什么Embedding模型？</h3><ul>
+<li>使用的是阿里巴巴发布的GTE-large-zh，因为它相比于openai的一些embedding模型，更适合中文场景。</li>
+</ul>
+<h3 id="使用的哪个大模型作为LLM？"><a href="#使用的哪个大模型作为LLM？" class="headerlink" title="使用的哪个大模型作为LLM？"></a>使用的哪个大模型作为LLM？</h3><ul>
+<li>使用阿里巴巴开源的qwen2.5：7b，使用Ollama部署在本地，程序中使用langchain的方法来调用。</li>
+</ul>
+<h2 id="AIMO数学竞赛"><a href="#AIMO数学竞赛" class="headerlink" title="AIMO数学竞赛"></a>AIMO数学竞赛</h2><h3 id="CoT数据，TIR数据分别指什么？为什么要用这些数据？"><a href="#CoT数据，TIR数据分别指什么？为什么要用这些数据？" class="headerlink" title="CoT数据，TIR数据分别指什么？为什么要用这些数据？"></a>CoT数据，TIR数据分别指什么？为什么要用这些数据？</h3><ul>
+<li>CoT即指chain of thought，即思维链数据，是将问题的解答过程一步步拆解开来而不是直接给一个答案。拿着这样的数据去训练模型，可以让模型在解答过程中一步步的去分析问题，从而让模型学会思考，学会推理。从数学上来说，解码器模型的每一次输出都是一个条件概率分布，这里的条件就是之前产生的token。那么在得到答案之前产生的token越多，给模型的上文就越多，这个条件概率分布的条件就越多，那么得到正确答案的概率就越高。</li>
+<li>TIR是tool-integrated reasoning。针对数学问题，会涉及到许多运算，那么我们希望大模型能在涉及运算的问题上调用工具比如使用python来计算，而不是自己用“脑子”算。所以在这一类数据集中，我们除了将问题拆解为一步步的方式来执行，同时在涉及计算问题时，会在solution中以markdown的方式添加python代码。这样训练出来的模型，输出中会带有代码。这样再写一个解析函数，将代码提取出来并执行，得到输出结果</li>
+</ul>
+<h3 id="self-consistency-decoding怎么做的？"><a href="#self-consistency-decoding怎么做的？" class="headerlink" title="self-consistency decoding怎么做的？"></a>self-consistency decoding怎么做的？</h3><ul>
+<li>它是来自于一篇论文，其本质是多次采样生成，取出现概率最高的结果，能降低单词生成的误差，提高解题稳定性。</li>
+</ul>
+<h3 id="为什么使用vLLM，性能怎么样？"><a href="#为什么使用vLLM，性能怎么样？" class="headerlink" title="为什么使用vLLM，性能怎么样？"></a>为什么使用vLLM，性能怎么样？</h3><ul>
+<li>vLLM是高效推理引擎，支持高并发，GPU高利用率，它可以最大限度的使用GPU来加速推理，比Transformers快2-3倍。</li>
+</ul>
+<h2 id="WSDM-Cup"><a href="#WSDM-Cup" class="headerlink" title="WSDM Cup"></a>WSDM Cup</h2><h3 id="为什么使用4bit量化，4bit量化具体是怎么实现的？"><a href="#为什么使用4bit量化，4bit量化具体是怎么实现的？" class="headerlink" title="为什么使用4bit量化，4bit量化具体是怎么实现的？"></a>为什么使用4bit量化，4bit量化具体是怎么实现的？</h3><ul>
+<li>使用4bit量化可以将模型的大小大大压缩，同时对模型的性能也影响较小，从而让我们可以在消费级的显卡上部署和微调。</li>
+<li>最简单的均匀量化的原理就是将模型的参数范围空间，从原来的非常大，映射到16个固定的值，这样模型的参数值只有16中可能，使用4个比特位就可以表示，这样就能大大的压缩模型参数对显卡显存的占用。实际上是将原来比如10000个参数按照数值大小，分别划分了16个桶，这样用这16个编号就能对每一个参数进行表示了。</li>
+<li>上一点说的是一种十分简单的量化方式，即均匀量化，所有的权重参数按照数值的大小进行量化。但现在主流的量化方式是GPTQ，一种后训练量化方法。</li>
+</ul>
+<h3 id="GPTQ"><a href="#GPTQ" class="headerlink" title="GPTQ"></a>GPTQ</h3><p>步骤如下：  </p>
+<ul>
+<li>前向跑一批代表性的样本，前向推理记录每层输出的激活值</li>
+<li>计算梯度敏感度，对权重W计算输出误差对权重的敏感度。即判断如果$W$被量化为$W_1$,对输出的影响有多大。</li>
+<li>对一个权重矩阵分块，分别量化，在量化每一个矩阵块的时候，其他矩阵块都不懂，避免误差扩散。利用第二步算出来的权重敏感度来决定量化顺序，即第三步优先量化对整体影响最小的块</li>
+<li>第四步选择重建误差最小的量化方式，比如非均匀量化，NF4编码</li>
+</ul>
+<p>总之，先前向推理记录激活值，计算每个权重对输出的的敏感度，即每个权重对输出的影响程度。第三步将权重分块，优先量化输出敏感度高的权重块，第四步量化时选择重建误差最小的量化方式。<strong>GPTQ是一种更精细的量化方式，宗旨即为在量化的同时，最小化量化对输出的影响。</strong> </p>
+<p><strong>GPTQ 是一种后训练量化方法，通过计算权重对模型输出的敏感性，优先保留对输出影响大的权重的量化精度，分组逐块量化权重，最小化量化误差带来的输出偏差。它能在无需微调的情况下，将 FP16 大模型压缩成 4-bit 精度，在显著降低显存和加速推理的同时，保持原模型90%以上的推理精度，广泛应用于 LLaMA、Qwen、DeepSeek 等主流大语言模型的本地部署。</strong></p>
+<h3 id="Bert模型"><a href="#Bert模型" class="headerlink" title="Bert模型"></a>Bert模型</h3><p>bert是谷歌提出的一种基于transformer的双向预训练语言模型，广泛应用于文本分类，问答，命名体识别，句子匹配等下游任务。</p>
+<p>核心结构是transformer的encoder layer的堆叠。input text 输入进来后，会得到三个部分，input embedding，position embeding， segment embedding。其中segment embedding 是表示句子属于句子A还是句子B。因为bert还有一个句对任务。</p>
+<p>Encoder layer 中包含attention layer 和 MLP layer。</p>
+<p>经过多层encoder layer之后， 得到输出向量，特别的，输出向量的第一个token是CLS，bert规定他是整个句子的聚合表示，常用来做分类。</p>
+<p>bert预训练中有两个任务，一个是 masked language model (MLM), 随机mask 15%的词，让模型根据上下文预测被mask掉的词。第二个任务是 next sentence prediction (NSP)即下一个句子预测。判断句子B是否是句子A的下一句。</p>
+<h3 id="自注意力机制代码"><a href="#自注意力机制代码" class="headerlink" title="自注意力机制代码"></a>自注意力机制代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">self_attention</span>(<span class="params">x, d_k</span>):</span><br><span class="line">    W_Q = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    W_K = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    W_V = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line"></span><br><span class="line">    q = x @ W_Q</span><br><span class="line">    k = x @ W_K</span><br><span class="line">    v = x @ W_V</span><br><span class="line"></span><br><span class="line">    scores = (q @ k.transpose(-<span class="number">2</span>, -<span class="number">1</span>)) / torch.sqrt(torch.tensor(d_k))</span><br><span class="line">    weight = F.softmax(scores, dim=-<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    o = weight @ v</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> o</span><br></pre></td></tr></table></figure>
+
+<h3 id="掩码注意力机制代码"><a href="#掩码注意力机制代码" class="headerlink" title="掩码注意力机制代码"></a>掩码注意力机制代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">masked_attention</span>(<span class="params">x, d_k</span>):</span><br><span class="line"></span><br><span class="line">    W_Q = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    W_K = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    W_V = torch.randn(X.size(-<span class="number">1</span>), d_k)</span><br><span class="line"></span><br><span class="line">    q = x @ W_Q</span><br><span class="line">    k = x @ W_K</span><br><span class="line">    v = x @ W_V</span><br><span class="line"></span><br><span class="line">    scores = (q @ k.transpose(-<span class="number">2</span>, -<span class="number">1</span>)) / torch.sqrt(torch.tensor(d_k))</span><br><span class="line">    mask = torch.triu(torch.ones(seq_len, seq_len) * <span class="built_in">float</span>(<span class="string">&#x27;-inf&#x27;</span>), diagonal=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    weight = F.softmax(scores + mask, dim=-<span class="number">1</span>)</span><br><span class="line">    o = weights @ v</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> o</span><br></pre></td></tr></table></figure>
+
+<h3 id="交叉注意力机制"><a href="#交叉注意力机制" class="headerlink" title="交叉注意力机制"></a>交叉注意力机制</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">cross_attention</span>(<span class="params">q_input, kv_input, d_k</span>):</span><br><span class="line">    <span class="comment">## q来自decoder，kv来自encoder</span></span><br><span class="line">    <span class="comment">## tgt_len表示要解码的文本，src_len表示编码好的文本</span></span><br><span class="line">    <span class="comment"># Q_input: (batch_size, tgt_len, d_model)</span></span><br><span class="line">    <span class="comment"># KV_input: (batch_size, src_len, d_model)</span></span><br><span class="line"></span><br><span class="line">    wq = torch.randn(q_input.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    wk = torch.randn(kv_input.size(-<span class="number">1</span>), d_k)</span><br><span class="line">    wv = torch.randn(kv_input.size(-<span class="number">1</span>), d_k)</span><br><span class="line"></span><br><span class="line">    Q = q_input @ wq <span class="comment"># (batch, tgt_len, d_k)</span></span><br><span class="line">    K = kv_input @ wk <span class="comment"># (batch, src_len, d_k)</span></span><br><span class="line">    V = kv_input @ wv <span class="comment"># (batch, src_len, d_k)</span></span><br><span class="line"></span><br><span class="line">    scores = (Q @ K.transpose(-<span class="number">2</span>, -<span class="number">1</span>)) / torch.sqrt(torch.tensor(d_k))  <span class="comment"># (batch, tgt_len, src_len)</span></span><br><span class="line">    weights = F.softmax(scores, dim=-<span class="number">1</span>)</span><br><span class="line">    output = weights @ V  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output</span><br></pre></td></tr></table></figure>
+
+<p><strong>在 Encoder-Decoder 架构中，交叉注意力的 Q 来自 Decoder 当前输入或上一层隐藏状态，K 和 V 来自 Encoder 编码后的输出。这样 Decoder 就可以在解码每个位置时，基于自己当前状态，有选择性地关注源句子的不同部分。</strong></p>
+<h3 id="MHA"><a href="#MHA" class="headerlink" title="MHA"></a>MHA</h3></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://example.com">武丢丢</a></p><p> <span>Link:  </span><a href="http://example.com/2025/04/20/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/">http://example.com/2025/04/20/%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2025/04/21/%E9%9D%A2%E8%AF%95%E5%A4%8D%E7%9B%98/" title="面试复盘"><span>< PreviousPost</span><br><span class="prevTitle">面试复盘</span></a><a class="nextSlogan" href="/2025/04/13/%E5%91%A8%E6%80%BB%E7%BB%934-13/" title="周总结4.13"><span>NextPost ></span><br><span class="nextTitle">周总结4.13</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A9%E7%94%A8AI%E8%BF%9B%E8%A1%8C%E6%A8%A1%E6%8B%9F%E9%9D%A2%E8%AF%95"><span class="toc-number">1.</span> <span class="toc-text">利用AI进行模拟面试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E7%A7%91%E7%A0%94%E5%8A%A9%E6%89%8B%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">个人科研助手项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#RAG%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">RAG的工作流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E7%94%A8Chroma%EF%BC%8C%E5%AE%83%E7%9B%B8%E6%AF%94%E4%BA%8EFAISS%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E5%8A%BF%EF%BC%9F"><span class="toc-number">1.1.2.</span> <span class="toc-text">为什么选用Chroma，它相比于FAISS有什么优势？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E4%BB%80%E4%B9%88Embedding%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用的什么Embedding模型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E5%93%AA%E4%B8%AA%E5%A4%A7%E6%A8%A1%E5%9E%8B%E4%BD%9C%E4%B8%BALLM%EF%BC%9F"><span class="toc-number">1.1.4.</span> <span class="toc-text">使用的哪个大模型作为LLM？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AIMO%E6%95%B0%E5%AD%A6%E7%AB%9E%E8%B5%9B"><span class="toc-number">1.2.</span> <span class="toc-text">AIMO数学竞赛</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CoT%E6%95%B0%E6%8D%AE%EF%BC%8CTIR%E6%95%B0%E6%8D%AE%E5%88%86%E5%88%AB%E6%8C%87%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E8%BF%99%E4%BA%9B%E6%95%B0%E6%8D%AE%EF%BC%9F"><span class="toc-number">1.2.1.</span> <span class="toc-text">CoT数据，TIR数据分别指什么？为什么要用这些数据？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#self-consistency-decoding%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="toc-number">1.2.2.</span> <span class="toc-text">self-consistency decoding怎么做的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8vLLM%EF%BC%8C%E6%80%A7%E8%83%BD%E6%80%8E%E4%B9%88%E6%A0%B7%EF%BC%9F"><span class="toc-number">1.2.3.</span> <span class="toc-text">为什么使用vLLM，性能怎么样？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WSDM-Cup"><span class="toc-number">1.3.</span> <span class="toc-text">WSDM Cup</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A84bit%E9%87%8F%E5%8C%96%EF%BC%8C4bit%E9%87%8F%E5%8C%96%E5%85%B7%E4%BD%93%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">为什么使用4bit量化，4bit量化具体是怎么实现的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GPTQ"><span class="toc-number">1.3.2.</span> <span class="toc-text">GPTQ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bert%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.3.</span> <span class="toc-text">Bert模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.4.</span> <span class="toc-text">自注意力机制代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A9%E7%A0%81%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%BB%A3%E7%A0%81"><span class="toc-number">1.3.5.</span> <span class="toc-text">掩码注意力机制代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%A4%E5%8F%89%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="toc-number">1.3.6.</span> <span class="toc-text">交叉注意力机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MHA"><span class="toc-number">1.3.7.</span> <span class="toc-text">MHA</span></a></li></ol></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

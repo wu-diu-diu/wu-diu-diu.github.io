@@ -109,7 +109,7 @@ MathJax = {
 
 <h1 id="Transformer之位置编码"><a href="#Transformer之位置编码" class="headerlink" title="Transformer之位置编码"></a>Transformer之位置编码</h1><h2 id="为什么需要位置编码"><a href="#为什么需要位置编码" class="headerlink" title="为什么需要位置编码"></a>为什么需要位置编码</h2><p>注意力计算公式如下图所示：  </p>
 <div style="text-align: center;">
-  <style>.pqapbbcybovx{width: 40%; height: 40%;}</style><img src="/2025/04/02/transformer-PE/01.png" class="pqapbbcybovx" alt="注意力计算公式">
+  <style>.wlqcycuevakk{width: 40%; height: 40%;}</style><img src="/2025/04/02/transformer-PE/01.png" class="wlqcycuevakk" alt="注意力计算公式">
 </div>
 
 <p>其中q和k分别为query和key，代表token的语义信息。如果没有位置编码，那么q和k的计算结果是不受二者之间相对距离大小的影响的。也就是说，如果没有位置编码，那么transformer就是一个类词袋模型。</p>
@@ -121,7 +121,7 @@ MathJax = {
 <h2 id="有几种位置编码"><a href="#有几种位置编码" class="headerlink" title="有几种位置编码"></a>有几种位置编码</h2><p>位置编码主要分为两种，第一种是想办法将位置信息融入到输入中，这是绝对位置编码的一般做法。另一种是修改一下Attention机制的结构，使其能够在计算注意力分数时，考虑到位置信息，这构成了相对位置编码的一般做法。我们首先介绍一下绝对位置编码。</p>
 <h3 id="绝对位置编码"><a href="#绝对位置编码" class="headerlink" title="绝对位置编码"></a>绝对位置编码</h3><p>其公式如下：  </p>
 <div style="text-align: center;">
-  <style>.kgyggxjbhnsp{width: 40%; height: 40%;}</style><img src="/2025/04/02/transformer-PE/position_encoding.png" class="kgyggxjbhnsp" alt="位置编码">
+  <style>.dqnwdjbeotfm{width: 40%; height: 40%;}</style><img src="/2025/04/02/transformer-PE/position_encoding.png" class="dqnwdjbeotfm" alt="位置编码">
 </div>
 
 <p>其中pos代表单个token的位置索引，比如1000个token，这个pos的取值则为0-999。i表示同一个token的向量的某一个维度索引，其中偶数维都有sin函数计算，奇数维都由cos函数计算。其代码如下所示：</p>
@@ -137,13 +137,13 @@ MathJax = {
 <li>综上所述，绝对位置编码能够反映token之间的绝对位置信息，同时也能够一定程度上反映token之间的相对位置。</li>
 </ul>
 <div style="display: flex; justify-content: space-between;">
-  <style>.itskuofwjbpk{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/02.png" class="itskuofwjbpk" alt="相距为k的向量的点积">
-  <style>.iselvziiooho{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/03.png" class="iselvziiooho" alt="远程衰减">
+  <style>.tbxlpbbremdk{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/02.png" class="tbxlpbbremdk" alt="相距为k的向量的点积">
+  <style>.obrobrnnffgc{width: 70%; height: auto;}</style><img src="/2025/04/02/transformer-PE/03.png" class="obrobrnnffgc" alt="远程衰减">
 </div>
 
 <p>所以，综上所述，绝对位置编码能够较好的表示token的位置信息，同时，也能够表示一定的相对位置信息。但是<strong>在实际使用中，绝对位置编码的外推性和远程衰减的特性都不能很好的展现</strong>。原因如下：</p>
 <div style="text-align: center;">
-  <style>.cwtxouvoghvz{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/04.png" class="cwtxouvoghvz" alt="图4:经过Attention层的位置编码">
+  <style>.xftgpdfhtvlv{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/04.png" class="xftgpdfhtvlv" alt="图4:经过Attention层的位置编码">
 </div>
 
 <p>由上图可知，位置编码是和word_embedding加和在一起的，经过注意力层的Q和K点积之后，其远程衰减的特性消失了，那么其表达相对位置的能力就不存在了。Q和K点积的公式如下：<br><span style="font-size: 80%;"><br>$$<br>\begin{align*}<br>q_{t}^{T} * k_{t+\Delta t} &#x3D; \left[W_{Q} * (x_{t} + PE_{t})\right]^{T} \left[W_{K} * (x_{t+\Delta t} + PE_{t+\Delta t})\right] &#x3D; \left[x_{t}^{T} W_{Q}^{T} + PE_{t}^{T} W_{Q}^{T}\right] \left[W_{K} x_{t+\Delta t} + W_{K} PE_{t+\Delta t}\right]<br>\end{align*} \tag{1.1}<br>$$<br><span></p>
@@ -155,7 +155,7 @@ MathJax = {
 <p>由上式可知，两个带有旋转角度信息的旋转矩阵进行向量乘法，其结果就带有了相对信息。那么如果我们对每一个token都旋转一个角度，这个角度与其绝对位置有关，之后进行qk相乘的时候，注意力分数中就会带有相对位置信息。公式如下：<br>$$<br>(R_m \cdot x)^T * (R_n \cdot y) &#x3D; x^T \cdot R_m^T \cdot R_n \cdot y &#x3D; x^T \cdot R_{n-m} \cdot y \tag{1.4}<br>$$</p>
 <p>那么既然相对位置信息是在query和key相乘的时候自动添加的，那么关键就在于如何为每个token的query和key向量添加绝对位置信息。其实很简单，将每个query和key向量，旋转位置索引个单位角度$\theta$即可。则注意力公式变为：<br>$$<br>Attention(q_m, k_n) &#x3D; (R_m \cdot q_m)^T \cdot (R_n \cdot k_n) \tag{1.5}<br>$$<br>其中$R_m$等于如下：<br>$$<br>R_m &#x3D; \begin{bmatrix}<br>\cos m\theta &amp; -\sin m\theta \\<br>\sin m\theta &amp; \cos m\theta<br>\end{bmatrix} \tag{1.6}<br>$$<br>m为qk的位置索引，即pos，$\theta$仍然沿用正余弦绝对位置编码的设置即：<br>$$<br>\theta_i &#x3D; 10000^{-2i&#x2F;d} \tag{1.7}<br>$$<br>如果query和key不是二维呢？在实际的transformer中，q和k都是高维向量，那么对于高维的向量，我们将其维度两两分为一组，比如1000维的query向量，$q_0$和$q_1$可以看作一组，令其与式(1.6)相乘，则将这一组向量赋予了绝对位置信息。公式如下：<br>$$<br>\mathbf{R_m \cdot q_m} &#x3D; \begin{bmatrix}<br>\cos m\theta_0 &amp; -\sin m\theta_0 \\<br>\sin m\theta_0 &amp; \cos m\theta_0<br>\end{bmatrix} \cdot \begin{bmatrix}<br>\ q_0 \\<br>\ q_1<br>\end{bmatrix} \tag{1.8}<br>$$<br>所以，对于一整个高维的query向量来说，都两两乘以一个旋转矩阵，如图下：</p>
 <div style="text-align: center;">
-  <style>.yonvtfdxczyw{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/06.png" class="yonvtfdxczyw" alt="图6:高维query向量的旋转">
+  <style>.qqywprumvrtg{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/06.png" class="qqywprumvrtg" alt="图6:高维query向量的旋转">
 </div>
 
 <p>上式相当于使用一个高维的，稀疏的，对角矩阵乘以query向量，当然我们不会创建整个稀疏矩阵，太大太占用内存了。所以对于一个1000维的query而言，我们可以首先计算上图中的cos和sin的部分，假如整个token序列的最大长度为500，m取值为0-499，$\theta$的指数部分取值为：<code>(0, 2, 4, .....,994, 996, 998) / 1000</code>，得到上图中的cos_table和sin_table, 都为一个$500 \cdot 1000$的矩阵。对于每一个$q_m$,乘以cos_table和sin_table中对应位置的$1 \cdot 1000$的向量即可。代码如下：</p>
@@ -166,7 +166,7 @@ MathJax = {
 <p>将$c_i &#x3D; 1 &#x2F; 10000^{-2i&#x2F;d}$视作一个常量，则$PE_t$和$PE_{t+k}$的关系为$PE_{t+k} &#x3D; R_k^T \cdot PE_t$其中:<br>$$<br>R_k^T &#x3D; \begin{bmatrix}<br>\cos (k \cdot c_i) &amp; -\sin (k \cdot c_i) \\<br>\sin (k \cdot c_i) &amp; \cos (k \cdot c_i)<br>\end{bmatrix}<br>$$</p>
 <p>将上述公式展开如图下：</p>
 <div style="text-align: center;">
-  <style>.djjqvuosinqt{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/07.png" class="djjqvuosinqt" alt="图7:PEt+k由PEt旋转得到">
+  <style>.gctrwbmicurw{width: 60%; height: auto;}</style><img src="/2025/04/02/transformer-PE/07.png" class="gctrwbmicurw" alt="图7:PEt+k由PEt旋转得到">
 </div>
 
 <p>是不是和旋转位置编码很像？没错，绝对位置编码可以看作是使用旋转的方式将绝对位置信息注入位置编码中，但是，使用加和的方式破坏了位置信息的远程衰减特性，从而使得模型不能很好的识别相对位置信息。而旋转位置编码使用也是用旋转的方式将绝对位置信息注入到位置编码中，但其是在得到query和key之后注入的，这样后续的注意力计算可以直接利用旋转矩阵的性质而得到相对位置信息。</p>
