@@ -97,7 +97,28 @@
   }
 }( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
   i.fa.fa-comment
-  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Wudiudiu's Blog</h1><h5>Welcome to my Blog!</h5><div class="intro-social"><a class="fab fa-github" href="//github.com/wu-diu-diu" target="_blank" title="github"></a><a class="fab fa-weibo" href="//www.weibo.com" target="_blank" title="weibo"></a><a class="fab fa-facebook" href="//www.facebook.com" target="_blank" title="facebook"></a><a class="fab fa-twitter" href="//twitter.com" target="_blank" title="twitter"></a></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2025/05/10/%E5%A4%9A%E6%A8%A1%E6%80%81RAG%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">多模态RAG学习总结</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-05-10T04:46:46.000Z">2025-05-10</time></div><div class="recent-post-content">python知识__init__.py的作用
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1>Wudiudiu's Blog</h1><h5>Welcome to my Blog!</h5><div class="intro-social"><a class="fab fa-github" href="//github.com/wu-diu-diu" target="_blank" title="github"></a><a class="fab fa-weibo" href="//www.weibo.com" target="_blank" title="weibo"></a><a class="fab fa-facebook" href="//www.facebook.com" target="_blank" title="facebook"></a><a class="fab fa-twitter" href="//twitter.com" target="_blank" title="twitter"></a></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><section id="recent-posts"><div class="recent-post-item"><div class="post-title"><a href="/2025/06/26/uv-learn/">uv_learn</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-06-26T03:30:34.000Z">2025-06-26</time></div><div class="recent-post-content">包管理器：UV包管理器就是在python项目中，管理各种依赖的安装和卸载，环境的构建，方便开发者能够不被各种版本依赖困扰。uv是使用rust语言开发的一款包管理器，使用起来非常便捷，最大的感受是安装各种包的时候速度非常的快。
+安装使用pipx安装
+
+pipx install uv
+
+使用uv新建一个项目
+mkdir proj
+cd proj
+uv init:这会创建一个python项目所需要的所有文件
+
+12345678910.├── .venv│   ├── bin│   ├── lib│   └── pyvenv.cfg├── .python-version├── README.md├── ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="tools"> tools</a></div><div class="read-more"><a class="more" href="/2025/06/26/uv-learn/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/06/23/docker-learn/">docker-learn</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-06-23T06:05:19.000Z">2025-06-23</time></div><div class="recent-post-content">从零开始安装docker engine打开终端，依次运行以下命令：
+12## 删除原来安装的旧版本for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
+12345678910111213## 设置docker的apt软件源sudo apt-get updatesudo apt-get install ca-certificates curlsudo install -m 0755 -d /e ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="docker"> docker</a></div><div class="read-more"><a class="more" href="/2025/06/23/docker-learn/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/05/27/%E6%9C%88%E6%80%BB%E7%BB%935-27/">月总结5.27</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-05-27T08:05:21.000Z">2025-05-27</time></div><div class="recent-post-content">本月工作总结
+CAD插件的代码在GPT的帮助下完成了，功能还可以，起码作为一个demo来说是合格的
+西北电的项目应该终于能接到了，接到之后就能暂时的喘一口气不管这边了
+今天做了一份好未来的NLP算法实习生的笔试题，选择题较为简单，编程题两道，一道是不定长滑动窗口，一道是考递归，类似于斐波那契数列
+机器人巡检的PPT还在继续做，宇树机器人的二次开发方案到底该怎么写啊
+完善了一下废话模型的代码，发现llama-factory是真的好用啊，集成了训练，评估，推理，部署四个阶段，对于一个学生来说是绝对够用的。
+多模态RAG的项目也算是阶段性的完成了，虽然部分想实现的功能没有实现。
+
+下月工作展望
+参加 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="总结"> 总结</a></div><div class="read-more"><a class="more" href="/2025/05/27/%E6%9C%88%E6%80%BB%E7%BB%935-27/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/05/23/CAD-plugin%E6%80%BB%E7%BB%93/">CAD_plugin总结</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-05-23T02:31:41.000Z">2025-05-23</time></div><div class="recent-post-content"></div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="C#"> C#</a></div><div class="read-more"><a class="more" href="/2025/05/23/CAD-plugin%E6%80%BB%E7%BB%93/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/05/10/%E5%A4%9A%E6%A8%A1%E6%80%81RAG%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/">多模态RAG学习总结</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-05-10T04:46:46.000Z">2025-05-10</time></div><div class="recent-post-content">python知识__init__.py的作用
 该文件的存在最基本的作用是将当前目录标记为包，这样python解释器就知道这个目录及目录包含的文件应该被视为包
 初始化包：当该包被导入的时候，会首先执行__init__.py，这样我们可以在其中写一些代码来做初始化
 控制包的导入：一个包内部会有很多子模块，通过在__init__.py中导入子模块，我们可以控制from packege import *运行时，哪些模块会被导入。
@@ -143,37 +164,4 @@ RAG和langchain又重新学习了一下，但也是很浅薄的那种，因为RA
 博客的背景无法自适应的问题得到了修改，同时链接无法展示的问题也得到了修改。算是学到了一点点点点的html语言的皮毛吧。
 
 下周工作展望
-我决定好好学习一下算法与数据 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="总结"> 总结</a></div><div class="read-more"><a class="more" href="/2025/04/13/%E5%91%A8%E6%80%BB%E7%BB%934-13/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/07/transformer-MLP/">transformer-MLP</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-07T13:51:00.000Z">2025-04-07</time></div><div class="recent-post-content">
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    processEscapes: true,
-  }
-};
-
-
-
-为什么会有MLP？transformer架构中，最主要的两个模块就是Attention-Layer和MLP-Layer。MLP全称为多层感知机，是神经网络的最主要的组成部分。其结构十分简单，主要由两层线性变换层和一个激活函数构成，其公式如下：
-$$MLP &#x3D; \sigma(X \cdot W_1 + b_1) \cdot W_2 + b_2 \tag{1.1}$$
-在神经网络中， ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></div><div class="read-more"><a class="more" href="/2025/04/07/transformer-MLP/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/07/RAG-langchain/">RAG-langchain</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-07T08:27:32.000Z">2025-04-07</time></div><div class="recent-post-content">RAG学习数据加载我们需要利用给定的数据形成知识库，数据的类型多种多样，langchain提供了很多工具来帮助我们加载和处理数据。比如加载PDF文档。
-从某一个目录下加载所有PDF文档123456from langchain_community.document_loaders import PyPDFDirectoryLoaderDATA_PATH = &quot;data&quot;document_loader = PyPDFDirectoryLoader(DATA_PATH)document = document_loader.load()
-上面返回的document是一个列表，其中的 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></div><div class="read-more"><a class="more" href="/2025/04/07/RAG-langchain/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/06/%E5%91%A8%E6%80%BB%E7%BB%934-6/">周总结4.6</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-06T08:55:37.000Z">2025-04-06</time></div><div class="recent-post-content">本周工作完成情况
-重启了我的博客，学习了如何在博客中插入图片，插入公式。熟悉了hexo这个开源博客框架的一些功能，比如更换主题，改变设置等等。
-西容的电容器项目告一段落，本来就不是我感兴趣的内容，和我学习的内容可以说没有丝毫的联系，对我找工作或者找实习或者写毕业论文也没有任何帮助。
-组里的服务器差不多可以被大家正常使用，重装系统这个过程学习到了很多关于Linux系统的知识，对linux系统的使用有了更深的了解
-transformer的总结也开始了，目前更新了两个部分，位置编码和normalization，还打算更新两个部分，MLP和Attention层
-
-下周的工作展望
-重启RAG和Agent ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="总结"> 总结</a></div><div class="read-more"><a class="more" href="/2025/04/06/%E5%91%A8%E6%80%BB%E7%BB%934-6/#more">ReadMore</a></div><hr></div><div class="recent-post-item"><div class="post-title"><a href="/2025/04/04/transformer-Normalization/">transformer-Normalization</a></div><div class="post-time"><i class="fa fa-table"></i><time datetime="2025-04-04T09:04:59.000Z">2025-04-04</time></div><div class="recent-post-content">
-MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']],
-    processEscapes: true,
-  }
-};
-
-
-
-NormalizationTransformer学习笔记三：为什么Transformer要用LayerNorm&#x2F;Batch Normalization &amp; Layer Normalization （批量&amp;层标准化)
-深入理解Batch Normalization原理与作用
-Normalization又称为标准化或者规范化，是在深度学习中经常使用的一种算法。其核心思 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="LLM"> LLM</a></div><div class="read-more"><a class="more" href="/2025/04/04/transformer-Normalization/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
+我决定好好学习一下算法与数据 ...</div><div class="recent-post-tags"><a class="post-tag fa fa-tag" href="javascript:void(0)" date-tags="总结"> 总结</a></div><div class="read-more"><a class="more" href="/2025/04/13/%E5%91%A8%E6%80%BB%E7%BB%934-13/#more">ReadMore</a></div><hr></div></section><nav class="cxo-page-nav"><span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">NEXT &#62;</a></nav></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

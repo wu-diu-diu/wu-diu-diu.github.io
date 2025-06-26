@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="武丢丢"><meta name="renderer" content="webkit"><meta name="copyright" content="武丢丢"><meta name="keywords" content="武丢丢"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>docker-learn · Punchy's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?v=1.0.0"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">docker-learn</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-06-23</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="docker"> docker</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="从零开始安装docker-engine"><a href="#从零开始安装docker-engine" class="headerlink" title="从零开始安装docker engine"></a>从零开始安装docker engine</h1><p>打开终端，依次运行以下命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 删除原来安装的旧版本</span></span><br><span class="line"><span class="keyword">for</span> pkg <span class="keyword">in</span> docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 设置docker的apt软件源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ca-certificates curl</span><br><span class="line">sudo install -m 0755 -d /etc/apt/keyrings</span><br><span class="line">sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc</span><br><span class="line">sudo chmod a+r /etc/apt/keyrings/docker.asc</span><br><span class="line"></span><br><span class="line"><span class="comment"># Add the repository to Apt sources:</span></span><br><span class="line">echo \</span><br><span class="line">  <span class="string">&quot;deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">  $(. /etc/os-release &amp;&amp; echo &quot;</span>$&#123;UBUNTU_CODENAME:-$VERSION_CODENAME&#125;<span class="string">&quot;) stable&quot;</span> | \</span><br><span class="line">  sudo tee /etc/apt/sources.<span class="built_in">list</span>.d/docker.<span class="built_in">list</span> &gt; /dev/null</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 安装最新版的docker</span></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 拉取hello-world镜像</span></span><br><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+<p>如果镜像拉取失败，即是国内网络的问题，需要设置镜像源</p>
+<ul>
+<li><code>cd /etc/docker/</code></li>
+<li>创建一个json文件：<code>sudo touch daemon.json</code></li>
+<li>编辑文件：<code>sudo vim daemon.json</code></li>
+<li>添加以下内容到文件，保存并退出：</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;registry-mirrors&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;https://registry.docker-cn.com&quot;</span>,</span><br><span class="line">        <span class="string">&quot;https://docker.mirrors.ustc.edu.cn&quot;</span>,</span><br><span class="line">        <span class="string">&quot;https://hub-mirror.c.163.com&quot;</span>,</span><br><span class="line">        <span class="string">&quot;https://mirror.baidubce.com&quot;</span>,</span><br><span class="line">        <span class="string">&quot;https://ccr.ccs.tencentyun.com&quot;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>重新运行daemon和docker： <code>sudo systemctl daemon-reload</code> <code>sudo systemctl restart docker</code></li>
+</ul>
+<p>重新运行<code>sudo docker run hello-world</code>。从输出中可以看出docker的运行逻辑，主要分为以下几个部分：</p>
+<ul>
+<li>The Docker client contacted the Docker daemon. docker 客户端即用户终端接受命令，比如docker run等，客户端将指令发送给daemon，即服务端</li>
+<li>The Docker daemon pulled the “hello-world” image from the Docker Hub. docker的服务端即后端负责管理镜像和容器，本地没有hello-world，服务端即会从dockerhub上下载</li>
+<li>The Docker daemon created a new container from that image which runs the<br>  executable that produces the output you are currently reading. docer服务端从拉取的镜像中创建了一个实例即容器，容器是一个隔离的环境，可以运行在本地。容器内部执行镜像定义的命令</li>
+<li>The Docker daemon streamed that output to the Docker client, which sent it<br>  to your terminal. 容器的输出由守护进程捕获，并通过客户端显示在你的终端上。</li>
+</ul>
+<p>一个类比：  </p>
+<table>
+<thead>
+<tr>
+<th>Docker 概念</th>
+<th>现实类比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>镜像（Image）</td>
+<td>蛋糕模具</td>
+</tr>
+<tr>
+<td>容器（Container）</td>
+<td>用模具烤出的蛋糕</td>
+</tr>
+<tr>
+<td>Docker Hub</td>
+<td>模具商店（可下载模具）</td>
+</tr>
+<tr>
+<td>守护进程</td>
+<td>蛋糕师傅（执行操作）</td>
+</tr>
+</tbody></table>
+<h1 id="Docker-Engine、Docker-Compose-和-Docker-Desktop-的区别"><a href="#Docker-Engine、Docker-Compose-和-Docker-Desktop-的区别" class="headerlink" title="Docker Engine、Docker Compose 和 Docker Desktop 的区别"></a>Docker Engine、Docker Compose 和 Docker Desktop 的区别</h1><p>Docker Desktop (GUI + 完整开发环境)<br>├── Docker Engine (核心运行时)<br>│   ├── Docker CLI<br>│   └── Docker Daemon<br>└── Docker Compose (多容器管理工具)</p>
+<h2 id="Docker-Engine"><a href="#Docker-Engine" class="headerlink" title="Docker Engine"></a>Docker Engine</h2><p>核心功能：Docker 的核心运行时环境，包含：，Docker Daemon (dockerd)：后台服务，管理容器生命周期，Docker CLI (docker)：命令行接口与 Daemon 交互，containerd：容器运行时，实际运行容器，runc：低层容器运行时工具，特点：只提供基础容器功能，纯命令行操作，适合服务器&#x2F;生产环境使用，需要手动管理网络、存储等</p>
+<h2 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h2><p>核心功能：用于定义和运行多容器 Docker 应用的工具,使用 YAML 文件 (docker-compose.yml) 配置应用服务<br>特点：简化多容器应用管理,一键启动&#x2F;停止整个应用栈，内置服务依赖管理，集成在 Docker Engine 中 (作为插件)，主要用于开发&#x2F;测试环境</p>
+<h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker compose"></a>安装docker compose</h3><p><code> sudo apt-get install docker-compose-plugin</code></p>
+<h1 id="给docker-配置代理"><a href="#给docker-配置代理" class="headerlink" title="给docker 配置代理"></a>给docker 配置代理</h1><p>有的时候国内镜像很慢，或者有的镜像没有，需要走代理访问dockerhub  </p>
+<h2 id="配置daemon-json"><a href="#配置daemon-json" class="headerlink" title="配置daemon.json"></a>配置<code>daemon.json</code></h2><p>如果docker运行的电脑和你的电脑处于同一个局域网下，而且你的电脑安装了clash可以访问外网，那么即可让docker通过你的代理访问外网，前提是必须打开你电脑上clash的局域网开关</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;proxies&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;http-proxy&quot;</span>: <span class="string">&quot;http://127.0.0.1:7890&quot;</span>,</span><br><span class="line">    <span class="string">&quot;https-proxy&quot;</span>: <span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置环境变量（好像这个方法更管用）"><a href="#配置环境变量（好像这个方法更管用）" class="headerlink" title="配置环境变量（好像这个方法更管用）"></a>配置环境变量（好像这个方法更管用）</h2><ul>
+<li>在 <code>/etc/systemd/system</code> 目录下创建 docker.service.d 目录:<code>sudo mkdir -p /etc/systemd/system/docker.service.d</code></li>
+<li><code>vim /etc/systemd/system/docker.service.d/http-proxy.conf</code></li>
+<li><pre><code class="language-python">[Service]
+Environment=&quot;HTTP_PROXY=http://172.22.11.200:7777&quot;
+Environment=&quot;HTTPS_PROXY=http://172.22.11.200:7777&quot;
+Environment=&quot;NO_PROXY=localhost,127.0.0.1&quot;
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- ```python</span><br><span class="line">  sudo systemctl daemon-reload</span><br><span class="line">  sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<p>这样就可以使用docker pull从dockerhub拉取镜像了。</p>
+<h1 id="使用docker-compose运行容器"><a href="#使用docker-compose运行容器" class="headerlink" title="使用docker compose运行容器"></a>使用docker compose运行容器</h1><p>首先需要新建一个项目，命名为composetest。在composetest中新建一个app.py内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">cache = redis.Redis(host=<span class="string">&#x27;redis&#x27;</span>, port=<span class="number">6379</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_hit_count</span>():</span><br><span class="line">    retries = <span class="number">5</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> cache.incr(<span class="string">&#x27;hits&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span> redis.exceptions.ConnectionError <span class="keyword">as</span> exc:</span><br><span class="line">            <span class="keyword">if</span> retries == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">raise</span> exc</span><br><span class="line">            retries -= <span class="number">1</span></span><br><span class="line">            time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    count = get_hit_count()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">f&#x27;Hello World! I have been seen <span class="subst">&#123;count&#125;</span> times.\n&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>上述代码简单来说就是用flask搭建web服务，使用redis构建后端服务。flask处理web请求，redis处理用户数据，构建了一个微服务框架。</p>
+<p>新建一个compose.yaml:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8000:5000&quot;</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&quot;redis:alpine&quot;</span></span><br></pre></td></tr></table></figure>
+<p>配置文件中定义了一个services，其中有两个服务，一个web服务，build:.表示用当前目录下的dockerfile来构建镜像，ports表示将宿主机的本地8000端口映射到容器内部的5000端口。则容器中运行的flask应用会监听5000端口，那么你在宿主机上可以访问：<code>localhost:8000</code>来访问这个服务。但是宿主机一般是远程服务器，如果你的电脑和远程服务器是在同一个局域网下，那么你可以直接在你的电脑中访问：<code>服务器ip:8000</code>来访问这个服务。同时你也可以在你的电脑中运行以下命令：<br><code>ssh -L 8888:localhost:8000 用户名@远程服务器IP</code>来将本地的8888端口的访问都转发到远程服务器的8000端口，然后在本地访问:<code>localhost:8888</code>即可。</p>
+<p>新建一个requirements.txt:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flask</span><br><span class="line">redis</span><br></pre></td></tr></table></figure>
+<p>新建一个Dockerfile：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM python<span class="punctuation">:</span><span class="number">3.10</span>-alpine</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP=app.py</span><br><span class="line">ENV FLASK_RUN_HOST=<span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line">RUN pip install -r requirements.txt</span><br><span class="line">EXPOSE <span class="number">5000</span></span><br><span class="line">COPY . .</span><br><span class="line">CMD <span class="punctuation">[</span><span class="string">&quot;flask&quot;</span><span class="punctuation">,</span> <span class="string">&quot;run&quot;</span><span class="punctuation">,</span> <span class="string">&quot;--debug&quot;</span><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>之后即可运行<code>docker compose up</code>来运行容器，过程中如果有pull不下来的images，手动使用pull来拉取，好像compose不会自动访问设置好的代理。</p>
+<h2 id="docker-compose和docker-run的区别"><a href="#docker-compose和docker-run的区别" class="headerlink" title="docker compose和docker run的区别"></a>docker compose和docker run的区别</h2><h3 id="docker-run"><a href="#docker-run" class="headerlink" title="docker run"></a>docker run</h3><p>是运行一个容器的基本命令，每次执行都需要在命令行指定所有参数，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">8080</span>:<span class="number">8080</span> --name searxng searxng/searxng</span><br></pre></td></tr></table></figure>
+
+<p>运行镜像并监听容器的8080端口，将主机的8080端口映射到容器的8080端口，这样就可以通过访问主机的端口来访问容器内提供的服务</p>
+<p>另外我们可以将容器的内的某个文件夹挂载到主机的文件夹下，比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --gpus=<span class="built_in">all</span> -v ollama:/root/.ollama -p <span class="number">11434</span>:<span class="number">11434</span> --name ollama ollama/ollama</span><br></pre></td></tr></table></figure>
+
+<p>这里将容器根目录下的.ollama文件夹挂载到了主机的ollama，这个ollama默认位于<code>/var/lib/docker/</code>下，这里ollama被成为卷(volume)存储在主机中，这样就算容器ollama被删除了，但是在容器的.ollama文件夹下下载的模型仍保存在<code>/var/lib/docker/ollama</code>中，这样当我们再次pull一个ollama镜像的时候，只需要重新将.ollama挂载到上述文件夹下即可。</p>
+<p>使用了docker run之后，容器就被启动了，在后台运行。把容器看作一个操作系统，我们想访问容器的终端，直接进入容器内操作的话，就需要命令<code>sudo docker exec -it ollama ollama run gemma3:12b</code>,以下是解释：</p>
+<p><strong>1. <code>sudo</code> (可选，取决于环境):</strong></p>
+<ul>
+<li><code>sudo</code> 命令允许你以超级用户 (root) 权限执行后续命令。</li>
+<li>在某些情况下，你可能需要 <code>sudo</code> 才能在 Docker 容器内执行命令，尤其是在容器用户没有足够的权限时。 如果你的 Docker 环境配置良好，你可能不需要 <code>sudo</code>。</li>
+</ul>
+<p><strong>2. <code>docker exec</code>:</strong></p>
+<ul>
+<li><code>docker exec</code> 是 Docker 提供的命令，用于在 <strong>已存在的 Docker 容器</strong> 中执行命令。 这与 <code>docker run</code> 不同，<code>docker run</code> 是用来创建并启动一个新的容器。</li>
+<li><code>exec</code> 允许你访问容器内部的环境，执行命令，就像你直接在容器内操作一样。</li>
+</ul>
+<p><strong>3. <code>-it</code> (选项):</strong></p>
+<ul>
+<li><code>-i</code> (interactive):  保持 <code>STDIN</code> 打开，允许你向容器发送输入。  这对于交互式使用至关重要，因为你需要和运行的程序（模型）进行交互。</li>
+<li><code>-t</code> (tty): 分配一个伪终端。 这使得你可以在容器内看到控制台输出，并使用命令行界面。</li>
+<li>结合 <code>-i</code> 和 <code>-t</code>  创建了一个交互式终端会话，允许你与容器内的程序进行交互。</li>
+</ul>
+<p><strong>4. <code>ollama</code> (容器名):</strong></p>
+<ul>
+<li><code>ollama</code> 是你已经存在的 Docker 容器的名称。  这意味着你之前已经使用 <code>docker run</code> 命令创建并运行了一个名为 <code>ollama</code> 的 Docker 容器。  这个容器通常包含 Ollama 环境，用于管理和运行大型语言模型。 你可以使用 <code>docker ps</code> 命令查看正在运行的容器列表，确认容器名称是否正确。  如果你的 Ollama 容器不是叫 <code>ollama</code>，<br>你需要替换成正确的容器名称。</li>
+</ul>
+<p><strong>5. <code>ollama run gemma3:12b</code> (命令):</strong></p>
+<ul>
+<li><code>ollama run</code> 是 Ollama 工具的命令，用于下载和运行大型语言模型。</li>
+<li><code>gemma3:12b</code> 是你要运行的模型名称。  <code>gemma3</code> 是模型的名称，<code>12b</code> 指的是模型的大小（120 亿参数）。  Ollama 会自动从 Ollama Hub 下载模型 (如果尚未下载)。</li>
+</ul>
+<p><strong>总结:</strong></p>
+<p>总而言之，这条命令的执行流程是：</p>
+<ol>
+<li><strong>查找名为 <code>ollama</code> 的已存在 Docker 容器。</strong></li>
+<li><strong>在 <code>ollama</code> 容器内部，执行 <code>ollama run gemma3:12b</code> 命令。</strong> 这会下载 Gemma 3.12B 模型（如果尚未下载），并启动模型。</li>
+<li><code>-it</code> 选项使得你能够与运行的模型进行交互，例如输入提示词并接收模型的输出。</li>
+</ol>
+<p>所以docker run的特点就是：</p>
+<ul>
+<li>一次只能启动一个容器</li>
+<li>所有配置通过命令行给出</li>
+<li>适合简单的单容器应用</li>
+<li>命令可能会很长而且复杂</li>
+<li>难以管理多个相关联的容器</li>
+</ul>
+<h3 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker compose"></a>docker compose</h3><p>Docker Compose 是一个用于定义和运行多容器应用的工具，通过 YAML 文件来配置服务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">version: <span class="string">&#x27;3&#x27;</span></span><br><span class="line">services:</span><br><span class="line">  web:</span><br><span class="line">    image: nginx</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&quot;8080:80&quot;</span></span><br><span class="line">  database:</span><br><span class="line">    image: mysql</span><br><span class="line">    environment:</span><br><span class="line">      MYSQL_ROOT_PASSWORD: password</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.. <code>docker compose</code> 的特点：</strong></p>
+<ul>
+<li><strong>定义多容器应用：</strong>  <code>docker compose</code> 专门用于定义和运行多容器的 Docker 应用。</li>
+<li><strong>使用 YAML 文件：</strong> 它使用 <code>docker-compose.yml</code> (或者 <code>docker-compose.yaml</code>) 文件来描述应用的各个服务（每个服务通常对应一个容器），包括镜像、命令、端口映射、环境变量、依赖关系、网络配置等。</li>
+<li><strong>简化多容器管理：</strong>  它简化了多容器应用的创建、启动、停止和管理。 你只需要一个命令 <code>docker compose up</code> 就能启动整个应用。</li>
+<li><strong>依赖关系管理：</strong>  <code>docker-compose.yml</code> 文件可以明确定义服务之间的依赖关系，Docker Compose 会按照正确的顺序启动服务。</li>
+<li><strong>网络配置：</strong>  它可以自动创建和配置服务之间的网络，方便服务间的通信。</li>
+<li><strong>可重复性：</strong>  <code>docker-compose.yml</code> 文件可以作为应用的配置清单，方便在不同的环境中使用相同的配置。</li>
+<li><strong>编排功能：</strong>  <code>docker compose</code> 提供了一些编排功能，例如健康检查、自动重启等。</li>
+<li><strong>可扩展性：</strong>  可以更容易地扩展应用，例如增加服务实例或修改网络配置。</li>
+</ul>
+<h2 id="docker-常用命令"><a href="#docker-常用命令" class="headerlink" title="docker 常用命令"></a>docker 常用命令</h2><p><strong>1. 镜像 (Images)</strong></p>
+<ul>
+<li><strong><code>docker pull &lt;image_name&gt;[:&lt;tag&gt;]</code></strong>: 从 Docker Hub 或其他注册中心下载镜像。<ul>
+<li>例如：<code>docker pull ubuntu:latest</code>  (拉取最新版本的 Ubuntu 镜像)</li>
+</ul>
+</li>
+<li><strong><code>docker images</code></strong>: 列出本地仓库中的镜像。</li>
+<li><strong><code>docker rmi &lt;image_id&gt; [&lt;image_id&gt; ...]</code></strong>: 删除本地镜像。  需要指定镜像 ID 或名称 (如果唯一)。<ul>
+<li><code>docker rmi -f &lt;image_id&gt;</code>: 强制删除镜像，即使它被其他镜像使用。</li>
+</ul>
+</li>
+<li><strong><code>docker build -t &lt;image_name&gt;:&lt;tag&gt; &lt;path_to_dockerfile&gt;</code></strong>:  从 Dockerfile 构建镜像。<ul>
+<li>例如: <code>docker build -t my-app:1.0 .</code> (在当前目录构建一个名为 my-app，标签为 1.0 的镜像)</li>
+</ul>
+</li>
+<li><strong><code>docker tag &lt;source_image&gt;:&lt;source_tag&gt; &lt;target_image&gt;:&lt;target_tag&gt;</code></strong>:  给镜像添加别名 (用于更方便的推送和管理<br>)。</li>
+</ul>
+<p><strong>2. 容器 (Containers)</strong></p>
+<ul>
+<li><strong><code>docker run [OPTIONS] &lt;image_name&gt; [COMMAND] [ARG...]</code></strong>: 创建并运行容器。 这是 Docker 最常用的命令之一。<ul>
+<li><code>docker run -d &lt;image_name&gt;</code>:  在后台运行容器 (detached mode)。</li>
+<li><code>docker run -p &lt;host_port&gt;:&lt;container_port&gt; &lt;image_name&gt;</code>:  将容器的端口映射到主机端口。</li>
+<li><code>docker run -v &lt;host_path&gt;:&lt;container_path&gt; &lt;image_name&gt;</code>:  将主机目录挂载到容器目录 (用于数据持久化)。</li>
+<li><code>docker run --name &lt;container_name&gt; &lt;image_name&gt;</code>:  给容器指定一个名称。</li>
+<li><code>docker run -e &lt;key&gt;=&lt;value&gt; &lt;image_name&gt;</code>: 设置环境变量</li>
+</ul>
+</li>
+<li><strong><code>docker ps [OPTIONS]</code></strong>: 列出正在运行的容器。<ul>
+<li><code>docker ps -a</code>: 列出所有容器 (包括已停止的)。</li>
+<li><code>docker ps -q</code>: 只显示容器 ID。</li>
+</ul>
+</li>
+<li><strong><code>docker start &lt;container_id_or_name&gt;</code></strong>: 启动已停止的容器。</li>
+<li><strong><code>docker stop &lt;container_id_or_name&gt;</code></strong>: 停止正在运行的容器。</li>
+<li><strong><code>docker restart &lt;container_id_or_name&gt;</code></strong>: 重启容器。</li>
+<li><strong><code>docker kill &lt;container_id_or_name&gt;</code></strong>: 强制停止容器 (更激进的停止方式)。</li>
+<li><strong><code>docker rm &lt;container_id_or_name&gt; [container_id_or_name...]</code></strong>: 删除一个或多个容器。<ul>
+<li><code>docker rm -f &lt;container_id_or_name&gt;</code>: 强制删除运行中的容器。</li>
+</ul>
+</li>
+<li><strong><code>docker exec -it &lt;container_id_or_name&gt; &lt;command&gt;</code></strong>: 在正在运行的容器中执行命令。<ul>
+<li>例如: <code>docker exec -it my_container bash</code> (在 my_container 容器中打开一个 bash shell)</li>
+</ul>
+</li>
+<li><strong><code>docker top &lt;container_id_or_name&gt;</code></strong>: 查看容器内的进程信息。</li>
+<li><strong><code>docker logs &lt;container_id_or_name&gt;</code></strong>: 查看容器的日志。<ul>
+<li><code>docker logs -f &lt;container_id_or_name&gt;</code>: 实时查看容器日志。</li>
+</ul>
+</li>
+<li><strong><code>docker inspect &lt;container_id_or_name&gt;</code></strong>:  显示容器的详细信息 (JSON 格式)。</li>
+</ul>
+<p><strong>3. 网络 (Networks)</strong></p>
+<ul>
+<li><strong><code>docker network ls</code></strong>:  列出 Docker 网络。</li>
+<li><strong><code>docker network create &lt;network_name&gt;</code></strong>: 创建一个 Docker 网络。</li>
+<li><strong><code>docker network connect &lt;network_name&gt; &lt;container_id_or_name&gt;</code></strong>:  将容器连接到 Docker 网络。</li>
+<li><strong><code>docker network disconnect &lt;network_name&gt; &lt;container_id_or_name&gt;</code></strong>:  将容器从 Docker 网络中分离。</li>
+<li><strong><code>docker network inspect &lt;network_name&gt;</code></strong>:  查看 Docker 网络的详细信息。</li>
+</ul>
+<p><strong>4. 卷 (Volumes)</strong></p>
+<ul>
+<li><strong><code>docker volume ls</code></strong>: 列出 Docker 卷。</li>
+<li><strong><code>docker volume create &lt;volume_name&gt;</code></strong>: 创建 Docker 卷。</li>
+<li><strong><code>docker volume inspect &lt;volume_name&gt;</code></strong>:  查看 Docker 卷的详细信息。</li>
+<li><strong><code>docker volume rm &lt;volume_name&gt;</code></strong>:  删除 Docker 卷。</li>
+</ul>
+<p><strong>5. Docker Compose (用于多容器应用)</strong></p>
+<ul>
+<li><strong><code>docker-compose up [OPTIONS]</code></strong>:  构建、创建和启动 Docker Compose 应用。<ul>
+<li><code>docker-compose up -d</code>:  在后台运行应用。</li>
+</ul>
+</li>
+<li><strong><code>docker-compose down [OPTIONS]</code></strong>:  停止并删除 Docker Compose 应用。</li>
+<li><strong><code>docker-compose ps</code></strong>:  列出 Docker Compose 应用的容器状态。</li>
+<li><strong><code>docker-compose logs</code></strong>: 查看 Docker Compose 应用的日志。</li>
+<li><strong><code>docker-compose build</code></strong>:  构建 Docker Compose 应用的镜像。</li>
+<li><strong><code>docker-compose exec &lt;service_name&gt; &lt;command&gt;</code></strong>:  在 Compose 服务中执行命令。</li>
+</ul>
+<p><strong>6. 其他常用命令</strong></p>
+<ul>
+<li><strong><code>docker info</code></strong>:  显示 Docker 环境的信息。</li>
+<li><strong><code>docker version</code></strong>:  显示 Docker 的版本信息。</li>
+<li><strong><code>docker system df</code></strong>:  显示 Docker 的资源使用情况 (磁盘空间)。</li>
+<li><strong><code>docker system prune</code></strong>:  清理无用的 Docker 对象 (容器、镜像、卷、网络)。 这是一个非常有用的命令，可以释放磁盘空<br>间。<ul>
+<li><code>docker system prune -a</code>: 删除所有未被使用的镜像、容器、卷和网络。谨慎使用！</li>
+</ul>
+</li>
+</ul>
+<p><strong>提示:</strong></p>
+<ul>
+<li>可以使用 <code>docker --help</code> 查看所有可用命令的帮助信息。</li>
+<li>可以使用 <code>docker &lt;command&gt; --help</code> 查看特定命令的帮助信息。</li>
+<li><code>docker</code> 命令通常需要使用 <code>sudo</code> 在 Linux 系统上运行，但在 Docker Desktop 上可能不需要。</li>
+</ul>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p><a target="_blank" rel="noopener" href="https://www.r9it.com/posts/2024/docker-proxy.html">一文讲透如何给Docker设置代理</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Mingcai_Xiong/article/details/144591364">Docker 设置代理的三种方法</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/gettingstarted/">docker官方文档</a></p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://example.com">武丢丢</a></p><p> <span>Link:  </span><a href="http://example.com/2025/06/23/docker-learn/">http://example.com/2025/06/23/docker-learn/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2025/06/26/uv-learn/" title="uv_learn"><span>< PreviousPost</span><br><span class="prevTitle">uv_learn</span></a><a class="nextSlogan" href="/2025/05/27/%E6%9C%88%E6%80%BB%E7%BB%935-27/" title="月总结5.27"><span>NextPost ></span><br><span class="nextTitle">月总结5.27</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%89%E8%A3%85docker-engine"><span class="toc-number">1.</span> <span class="toc-text">从零开始安装docker engine</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-Engine%E3%80%81Docker-Compose-%E5%92%8C-Docker-Desktop-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">Docker Engine、Docker Compose 和 Docker Desktop 的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-Engine"><span class="toc-number">2.1.</span> <span class="toc-text">Docker Engine</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Docker-Compose"><span class="toc-number">2.2.</span> <span class="toc-text">Docker Compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">2.2.1.</span> <span class="toc-text">安装docker compose</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%99docker-%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">给docker 配置代理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEdaemon-json"><span class="toc-number">3.1.</span> <span class="toc-text">配置daemon.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%EF%BC%88%E5%A5%BD%E5%83%8F%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E6%9B%B4%E7%AE%A1%E7%94%A8%EF%BC%89"><span class="toc-number">3.2.</span> <span class="toc-text">配置环境变量（好像这个方法更管用）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8docker-compose%E8%BF%90%E8%A1%8C%E5%AE%B9%E5%99%A8"><span class="toc-number">4.</span> <span class="toc-text">使用docker compose运行容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose%E5%92%8Cdocker-run%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">4.1.</span> <span class="toc-text">docker compose和docker run的区别</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-run"><span class="toc-number">4.1.1.</span> <span class="toc-text">docker run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose"><span class="toc-number">4.1.2.</span> <span class="toc-text">docker compose</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">4.2.</span> <span class="toc-text">docker 常用命令</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">5.</span> <span class="toc-text">参考文献</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

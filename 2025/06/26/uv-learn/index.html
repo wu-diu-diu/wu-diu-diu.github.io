@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="武丢丢"><meta name="renderer" content="webkit"><meta name="copyright" content="武丢丢"><meta name="keywords" content="武丢丢"><meta name="description" content="null"><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>uv_learn · Punchy's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css?v=1.0.0"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 7.1.1"></head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/me.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">punchy</div><div class="profile-signature">Stay foolish Stay hungry</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/bg.jpg); background-repeat: no-repeat; background-position: top center; background-size: cover; -webkit-background-size: cover; -o-background-size: cover;"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Wudiudiu's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">uv_learn</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2025-06-26</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="tools"> tools</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="包管理器：UV"><a href="#包管理器：UV" class="headerlink" title="包管理器：UV"></a>包管理器：UV</h1><p>包管理器就是在python项目中，管理各种依赖的安装和卸载，环境的构建，方便开发者能够不被各种版本依赖困扰。uv是使用rust语言开发的一款包管理器，使用起来非常便捷，最大的感受是安装各种包的时候速度非常的快。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>使用pipx安装</p>
+<ul>
+<li><code>pipx install uv</code></li>
+</ul>
+<h2 id="使用uv新建一个项目"><a href="#使用uv新建一个项目" class="headerlink" title="使用uv新建一个项目"></a>使用uv新建一个项目</h2><ul>
+<li><code>mkdir proj</code></li>
+<li><code>cd proj</code></li>
+<li><code>uv init</code>:这会创建一个python项目所需要的所有文件</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── .venv</span><br><span class="line">│   ├── bin</span><br><span class="line">│   ├── lib</span><br><span class="line">│   └── pyvenv.cfg</span><br><span class="line">├── .python-version</span><br><span class="line">├── README.md</span><br><span class="line">├── main.py</span><br><span class="line">├── pyproject.toml</span><br><span class="line">└── uv.lock</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们可以使用uv pip install 安装包，但是这样安装的包的信息不会立即同步到toml文件和lock文件中，如果使用<code>uv add package</code>命令，则可以让包在安装好后，相关星系能够同步到toml文件和lock文件。</p>
+<p>其中<code>toml</code>文件在刚创建好的时候会包含项目的元信息，系统依赖项，构建系统的要去比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[project]</span><br><span class="line">name = &quot;uv-test&quot;</span><br><span class="line">version = &quot;0.1.0&quot;</span><br><span class="line">description = &quot;Add your description here&quot;</span><br><span class="line">readme = &quot;README.md&quot;</span><br><span class="line">requires-python = &quot;&gt;=3.11&quot;</span><br><span class="line">dependencies = [</span><br><span class="line">    &quot;numpy&gt;=2.3.1&quot;,</span><br><span class="line">    &quot;pandas&gt;=2.3.0&quot;,</span><br><span class="line">    &quot;pillow&gt;=11.2.1&quot;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>其中lock文件是依赖锁文件，记录所有依赖项及其精确版本，确保在不同平台上可复现的安装，这个是uv自动管理的，无需手动编辑:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[[package]]</span><br><span class="line">name = <span class="string">&quot;numpy&quot;</span></span><br><span class="line">version = <span class="string">&quot;2.3.1&quot;</span></span><br><span class="line">source = &#123; registry = <span class="string">&quot;https://pypi.org/simple&quot;</span> &#125;</span><br><span class="line">sdist = &#123; url = <span class="string">&quot;https://files.pythonhosted.org/packages/2e/19/d7c972dfe90a353dbd3efbbe1d14a5951de80c99c9dc1b93cd998d51dc0f/numpy-2.3.1.tar.gz&quot;</span>, <span class="built_in">hash</span> = <span class="string">&quot;sha256:1ec9ae20a4226da374362cca3c62cd753faf2f951440b0e3b98e93c235441d2b&quot;</span>, size = <span class="number">20390372</span>, upload-time = <span class="string">&quot;2025-06-21T12:28:33.469Z&quot;</span> &#125;</span><br><span class="line">wheels = [</span><br><span class="line">    &#123; url = <span class="string">&quot;https://files.pythonhosted.org/packages/b0/c7/87c64d7ab426156530676000c94784ef55676df2f13b2796f97722464124/numpy-2.3.1-cp311-cp311-macosx_10_9_x86_64.whl&quot;</span>, <span class="built_in">hash</span> = <span class="string">&quot;sha256:6ea9e48336a402551f52cd8f593343699003d2353daa4b72ce8d34f66b722070&quot;</span>, size = <span class="number">21199346</span>, upload-time = <span class="string">&quot;2025-06-21T11:47:47.57Z&quot;</span> &#125;,</span><br><span class="line">    <span class="comment">## 后面还有一大堆</span></span><br><span class="line"></span><br><span class="line">[[package]]</span><br><span class="line">name = <span class="string">&quot;pandas&quot;</span></span><br><span class="line">version = <span class="string">&quot;2.3.0&quot;</span></span><br><span class="line">source = &#123; registry = <span class="string">&quot;https://pypi.org/simple&quot;</span> &#125;</span><br><span class="line">dependencies = [</span><br><span class="line">    &#123; name = <span class="string">&quot;numpy&quot;</span> &#125;,</span><br><span class="line">    &#123; name = <span class="string">&quot;python-dateutil&quot;</span> &#125;,</span><br><span class="line">    &#123; name = <span class="string">&quot;pytz&quot;</span> &#125;,</span><br><span class="line">    &#123; name = <span class="string">&quot;tzdata&quot;</span> &#125;,</span><br><span class="line">]</span><br><span class="line">sdist = &#123; url = <span class="string">&quot;https://files.pythonhosted.org/packages/72/51/48f713c4c728d7c55ef7444ba5ea027c26998d96d1a40953b346438602fc/pandas-2.3.0.tar.gz&quot;</span>, <span class="built_in">hash</span> = <span class="string">&quot;sha256:34600ab34ebf1131a7613a260a61dbe8b62c188ec0ea4c296da7c9a06b004133&quot;</span>, size = <span class="number">4484490</span>, upload-time = <span class="string">&quot;2025-06-05T03:27:54.133Z&quot;</span> &#125;</span><br><span class="line">wheels = [</span><br><span class="line">    &#123; url = <span class="string">&quot;https://files.pythonhosted.org/packages/96/1e/ba313812a699fe37bf62e6194265a4621be11833f5fce46d9eae22acb5d7/pandas-2.3.0-cp311-cp311-macosx_10_9_x86_64.whl&quot;</span>, <span class="built_in">hash</span> = <span class="string">&quot;sha256:8adff9f138fc614347ff33812046787f7d43b3cef7c0f0171b3340cae333f6ca&quot;</span>, size = <span class="number">11551836</span>, upload-time = <span class="string">&quot;2025-06-05T03:26:22.784Z&quot;</span> &#125;,</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>source .venv/bin/activate</code>: 激活环境</li>
+<li>使用<code>uv add</code>来安装包</li>
+<li>安装完使用<code>uv sync</code>来进行同步，这个命令会优先根据lock文件来安装依赖</li>
+</ul>
+<h1 id="使用uv从已有项目中构建环境"><a href="#使用uv从已有项目中构建环境" class="headerlink" title="使用uv从已有项目中构建环境"></a>使用uv从已有项目中构建环境</h1><p>如果以及有一个项目，这个项目使用toml文件写明了项目需要的依赖，可以使用uv来快速的构建项目</p>
+<ul>
+<li>首先创建一个虚拟环境:<code>uv venv</code>，然后激活</li>
+<li>运行命令：<code>uv pip install .</code>:uv 会在当前目录下的toml文件，根据它来安装所有的依赖</li>
+<li><code>uv lock</code>：可选，生成uv.lock文件</li>
+</ul>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://example.com">武丢丢</a></p><p> <span>Link:  </span><a href="http://example.com/2025/06/26/uv-learn/">http://example.com/2025/06/26/uv-learn/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2025/06/23/docker-learn/" title="docker-learn"><span>NextPost ></span><br><span class="nextTitle">docker-learn</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%9AUV"><span class="toc-number">1.</span> <span class="toc-text">包管理器：UV</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-number">1.1.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8uv%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.2.</span> <span class="toc-text">使用uv新建一个项目</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8uv%E4%BB%8E%E5%B7%B2%E6%9C%89%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%9E%84%E5%BB%BA%E7%8E%AF%E5%A2%83"><span class="toc-number">2.</span> <span class="toc-text">使用uv从已有项目中构建环境</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
